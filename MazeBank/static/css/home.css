@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+body {
+    min-height: 100vh;
+    /* background: url("../imgs/Homepage.png") no-repeat center center fixed;
+    background-size: 70%; */
+    background-color: #FDFDFD;
+    color: #970505;
+
+}
+.logo-img {
+    height: 70px;
+    width: 170px ;
+}
+.jumbotron {
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+.footer {
+    background: rgba(255,255,255,0.95);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #555;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+}
+
+.carousel-caption {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    padding: 1.5rem 1rem;
+}
+
+.cover-img-large {
+    max-width: 1400px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+/* Carousel image */
+.carousel-img-wrapper img {
+    max-height: 650px;
+    object-fit: cover;
+    filter: brightness(0.7);
+    border-radius: 18px;
+}
+
+/* Carousel caption (riquadro bianco) */
+.carousel-caption.custom-caption {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 3.5rem 2.5rem;
+    width: 90%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+body, .jumbotron, .carousel-caption, .navbar, .footer {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}
+.navbar {
+    background-color: #FDFDFD !important;
+    min-height: 90px;
+    border-bottom: 1px solid #f8f9fa;
+}
+.navbar-nav .nav-link {
+    font-size: 2rem;      /* aumenta la dimensione del testo */
+    color: #970505 !important;
+    transition: color 0.2s;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #970505 !important;
+}
+.btn-outline-primary {
+    border-color: #970505;
+    color: #970505;
+}
+.btn-outline-primary:hover {
+    background: #970505;
+    color: #fff;
+    border-color: #970505;
+}
+.text-mazebank-red {
+    color: #970505 !important;
+}
+.btn-outline-danger {
+    border-color: #970505 !important;
+    color: #970505 !important;
+}
+.btn-outline-danger:hover {
+    background: #970505 !important;
+    color: #fff !important;
+    border-color: #970505 !important;
+}
