@@ -25,6 +25,42 @@ body {
     color: #555;
     box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
 }
+.footer-custom {
+    background: #FDFDFD;
+    border-top: 10px solid #970505;
+    width: 100%;
+    padding: 2.5rem 0 2rem 0;
+    text-align: center;
+    font-size: 1.15rem;
+    color: #333;
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.06);
+    position: relative;
+    bottom: 0;
+    left: 0;
+    margin-top: 80px;
+}
+.footer-logo {
+    height: 80px;
+    width: 150px;
+    object-fit: contain;
+    margin-right: 1rem;
+}
+.footer-title {
+    color: #970505;
+    letter-spacing: 1px;
+}
+.footer-details {
+    font-size: 1rem;
+    color: #555;
+}
+.footer-link {
+    color: #970505;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+.footer-link:hover {
+    color: #b71c1c;
+}
 
 .carousel-caption {
     left: 50%;

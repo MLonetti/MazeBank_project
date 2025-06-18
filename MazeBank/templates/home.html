@@ -115,8 +115,23 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        &copy; {% now "Y" %} Maze Bank S.p.A. - Tutti i diritti riservati
+    <footer class="footer-custom">
+        <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between py-4">
+            <div class="d-flex align-items-center mb-3 mb-md-0">
+                <img src="{% static 'imgs/logo2.jpg' %}" alt="MazeBank Logo" class="footer-logo mr-3">
+            </div>
+            <div class="footer-details text-center text-md-left mt-2 mt-md-0">
+                <div class="mb-1">
+                    &copy; {% now "Y" %} Maze Bank S.p.A. - Tutti i diritti riservati
+                </div>
+                <div>
+                    Sede legale: Phillbox Hill 123, 00100 Los Santos (San Andreas) &nbsp;|&nbsp; P.IVA 12345678901
+                </div>
+                <div>
+                    <a href="mailto:info@mazebank.it" class="footer-link">info@mazebank.it</a> &nbsp;|&nbsp; <a href="#" class="footer-link">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <!-- Bootstrap JS (necessario per la navbar responsive) -->
