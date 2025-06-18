@@ -1,11 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 body {
     min-height: 100vh;
-    /* background: url("../imgs/Homepage.png") no-repeat center center fixed;
-    background-size: 70%; */
-    background-color: #FDFDFD;
+    background: url("../imgs/Sfondo.jpg") repeat;
+    background-size: 250px 500px; 
+    background-position: top left;
     color: #970505;
-
 }
 .logo-img {
     height: 70px;
@@ -73,7 +72,7 @@ body, .jumbotron, .carousel-caption, .navbar, .footer {
 .navbar {
     background-color: #FDFDFD !important;
     min-height: 90px;
-    border-bottom: 1px solid #f8f9fa;
+    border-bottom: 5px solid #970505;
 }
 .navbar-nav .nav-link {
     font-size: 2rem;      /* aumenta la dimensione del testo */
@@ -106,4 +105,77 @@ body, .jumbotron, .carousel-caption, .navbar, .footer {
     background: #970505 !important;
     color: #fff !important;
     border-color: #970505 !important;
+}
+.navbar-mazebank {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+}
+
+.cover-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+    margin-bottom: 0;
+}
+.cover-inner {
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+.cover-img-large {
+    max-height: 950px;
+    max-width: 1400px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 12px;
+}
+.cover-jumbotron {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.85);
+    border-radius: 0 0 12px 12px;
+}
+.cover-jumbotron h1 {
+    color: #333;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.cover-jumbotron .lead {
+    font-size: 1.6rem;
+    color: #333;
+}
+.carousel-container {
+    margin-top: 120px;
+}
+.btn-mazebank-account {
+    border: 2px solid #970505;
+    color: #fff;
+    background: #970505;
+    border-radius: 30px;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-mazebank-account:hover {
+    background: #fff;
+    color: #970505;
+    border: 2px solid #970505;
+}
+.login-btn {
+    border-radius: 30px;
+    border-width: 2px;
+    transition: background 0.2s, color 0.2s;
+}
+.login-btn:hover {
+    background: #970505;
+    color: #fff;
+    border-color: #970505;
 }

@@ -6,20 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% block head %}
-    <title>{% block title %}MazeBank - Home{% endblock %}</title>
+    <title>{% block title %}MazeBank{% endblock %}</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="{% static 'css/home.css' %}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap" rel="stylesheet">
     {% endblock %}
 </head>
 <body>
 {% block content %}
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar shadow-sm justify-content-between" style="padding-top: 1.2rem; padding-bottom: 1.2rem;">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <img src="{% static 'imgs/MazeBankLogo.png' %}" alt="MazeBanc Logo" class="logo-img mr-3">
+    <nav class="navbar navbar-expand-lg navbar shadow-sm justify-content-between navbar-mazebank">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'homepage' %}">
+            <img src="{% static 'imgs/logo2.jpg' %}" alt="MazeBank Logo" class="logo-img mr-3">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,32 +27,35 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav w-100 d-flex justify-content-end align-items-center">
                 <li class="nav-item active mx-3">
-                    <a class="nav-link font-weight-bold h5 mb-0" href="#">Home</a>
+                    <a class="nav-link font-weight-bold h5 mb-0" href="#">Chi Siamo</a>
                 </li>
                 <li class="nav-item mx-3">
                     <a class="nav-link font-weight-bold h5 mb-0" href="#">Servizi</a>
                 </li>
                 <li class="nav-item mx-3">
-                    <a class="nav-link font-weight-bold h5 mb-0" href="#">Conti</a>
+                    <a class="btn btn-outline-primary font-weight-bold px-4 py-2 d-flex align-items-center login-btn" href="#">
+                        <span class="mr-2">
+                            <!-- ICONA LUCCCHETTO -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                              <path d="M8 1a3 3 0 0 0-3 3v3h6V4a3 3 0 0 0-3-3zm-4 3a4 4 0 1 1 8 0v3a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2V4z"/>
+                            </svg>
+                        </span>
+                        Login
+                    </a>
                 </li>
                 <li class="nav-item mx-3">
-                    <a class="nav-link font-weight-bold h5 mb-0" href="#">Contattaci</a>
-                </li>
-                <li class="nav-item mx-3">
-                    <a class="btn btn-outline-primary font-weight-bold px-4 py-2" href="#">Accedi</a>
+                    <a class="btn btn-mazebank-account font-weight-bold px-4 py-2 ml-2" href="#">Apri il Conto Online</a>
                 </li>
             </ul>
         </div>
     </nav>
 
     <!-- Copertina con immagine Homepage.png -->
-    <div class="w-100 d-flex justify-content-center" style="margin-top: 80px; margin-bottom: 0;">
-        <div class="position-relative text-center" style="width: 100%;">
+    <div class="cover-section">
+        <div class="position-relative text-center cover-inner">
             <img src="{% static 'imgs/Homepage.png' %}" alt="Copertina MazeBank"
-                 class="img-fluid cover-img-large"
-                 style="max-height: 950px; object-fit: cover; border-radius: 12px;">
-            <div class="jumbotron text-center position-absolute w-100"
-                 style="top: 50%; left: 0; transform: translateY(-50%); background: rgba(255,255,255,0.85); border-radius: 0 0 12px 12px;">
+                 class="img-fluid cover-img-large">
+            <div class="jumbotron text-center cover-jumbotron">
                 <h1 class="display-4 font-weight-bold">MAZE BANK</h1>
                 <p class="lead">La tua banca digitale di fiducia: sicura, innovativa, sempre con te.</p>
                 <hr class="my-4">
@@ -62,8 +64,8 @@
     </div>
 
     <!-- Carousel Bootstrap -->
-    <div class="container mb-5" style="margin-top: 120px;">
-        <div id="mazebankCarousel" class="carousel slide shadow-lg rounded" data-ride="carousel" style="background: #f8f9fa;">
+    <div class="container mb-5 carousel-container">
+        <div id="mazebankCarousel" class="carousel slide shadow-lg rounded" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#mazebankCarousel" data-slide-to="0" class="active"></li>
                 <li data-target="#mazebankCarousel" data-slide-to="1"></li>
@@ -76,7 +78,7 @@
                         <div class="carousel-caption custom-caption">
                             <h2 class="display-4 font-weight-bold text-mazebank-red mb-3">UNISCITI A 5 MILIONI DI PERSONE SODDISFATTE</h2>
                             <p class="lead text-mazebank-red mb-4">Maze Bank: la libertà di una banca digitale, sicura e sempre al tuo fianco.</p>
-                            <a class="btn btn-lg btn-outline-danger font-weight-bold px-5 py-3 shadow" href="#" role="button" style="font-size: 1.4rem;">Apri il tuo conto ora</a>
+                            <a class="btn btn-lg btn-outline-danger font-weight-bold px-5 py-3 shadow" href="#" role="button">Apri il tuo conto ora</a>
                         </div>
                     </div>
                 </div>
@@ -86,7 +88,7 @@
                         <div class="carousel-caption custom-caption">
                             <h2 class="display-4 font-weight-bold text-mazebank-red mb-3">ZERO COMMISSIONI E PRELIEVI ILLIMITATI</h2>
                             <p class="lead text-mazebank-red mb-4">Dimentica le spese inutili: operazioni gratuite e accesso al tuo conto ovunque, senza limiti.</p>
-                            <a class="btn btn-lg btn-outline-danger font-weight-bold px-5 py-3 shadow" href="#" role="button" style="font-size: 1.4rem;">Scopri di più</a>
+                            <a class="btn btn-lg btn-outline-danger font-weight-bold px-5 py-3 shadow" href="#" role="button">Scopri di più</a>
                         </div>
                     </div>
                 </div>
@@ -96,7 +98,7 @@
                         <div class="carousel-caption custom-caption">
                             <h2 class="display-4 font-weight-bold text-mazebank-red mb-3">BONUS DI BENVENUTO: PER TE SUBITO €50 </h2>
                             <p class="lead text-mazebank-red mb-4">Apri ora il tuo conto Maze Bank e ricevi subito 50 euro in regalo. L’offerta è limitata!</p>
-                            <a class="btn btn-lg btn-outline-danger font-weight-bold px-5 py-3 shadow" href="#" role="button" style="font-size: 1.4rem;">Richiedi il bonus</a>
+                            <a class="btn btn-lg btn-outline-danger font-weight-bold px-5 py-3 shadow" href="#" role="button">Richiedi il bonus</a>
                         </div>
                     </div>
                 </div>
@@ -114,7 +116,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        &copy; {{ now|date:"Y" }} Maze Bank S.p.A. - Tutti i diritti riservati
+        &copy; {% now "Y" %} Maze Bank S.p.A. - Tutti i diritti riservati
     </footer>
 
     <!-- Bootstrap JS (necessario per la navbar responsive) -->
