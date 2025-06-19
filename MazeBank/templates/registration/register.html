@@ -1,0 +1,31 @@
+{% extends "home.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
+{% block title %}Apri il tuo Conto{% endblock %}
+
+{% block content %}
+<div class="container my-5 py-5" style="max-width: 1000px;">
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-5">
+            <h2 class="text-center mb-4 text-mazebank-red font-weight-bold" style="letter-spacing:1px; font-size:2.2rem;">Registrazione Utente</h2>
+            <p class="text-center mb-4" style="color:#555; font-size:1.25rem;">
+                Compila il modulo per registrarti ed aprire il tuo conto Maze Bank.<br>
+                Tutti i campi sono obbligatori.
+            </p>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-mazebank-account btn-block mt-4 py-2 font-weight-bold" style="font-size:1.3rem;">
+                    Registrati
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

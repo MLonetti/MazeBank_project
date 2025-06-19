@@ -3,18 +3,23 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 class User(AbstractUser):
-    username = None  # Rimuove il campo username originale
-    email = models.EmailField('Email', unique=True)
-    nome = models.CharField(max_length=100)
-    cognome = models.CharField(max_length=100)
+    # Usiamo gli attributi già presenti: email, first_name, last_name
+    # Rendi obbligatoria l'email (unique e blank=False già su AbstractUser, ma puoi rafforzare così:)
+    email = models.EmailField('Email', unique=True, blank=False, null=False)
+    first_name = models.CharField(max_length=150, blank=False)  # <--- obbligatorio
+    last_name = models.CharField(max_length=150, blank=False)   # <--- obbligatorio
+
     data_nascita = models.DateField()
     indirizzo = models.CharField(max_length=255)
     citta = models.CharField(max_length=100)
     cellulare = PhoneNumberField()
     immagine_profilo = models.ImageField(upload_to='profile_images/', blank=True, null=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nome', 'cognome', 'data_nascita', 'indirizzo', 'citta', 'cellulare']
+    # USERNAME_FIELD resta 'username' (default, che è un CharField)
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name', 'data_nascita', 'indirizzo', 'citta', 'cellulare']
+
+    def __str__(self):
+        return self.username
 
 class ContattoSalvato(models.Model):
     proprietario = models.ForeignKey(

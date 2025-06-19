@@ -14,43 +14,46 @@
     {% endblock %}
 </head>
 <body>
-{% block content %}
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar shadow-sm justify-content-between navbar-mazebank">
-        <a class="navbar-brand d-flex align-items-center" href="{% url 'homepage' %}">
-            <img src="{% static 'imgs/logo2.jpg' %}" alt="MazeBank Logo" class="logo-img mr-3">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav w-100 d-flex justify-content-end align-items-center">
-                <li class="nav-item active mx-3">
-                    <a class="nav-link font-weight-bold h5 mb-0" href="#">Chi Siamo</a>
-                </li>
-                <li class="nav-item mx-3">
-                    <a class="nav-link font-weight-bold h5 mb-0" href="#">Servizi</a>
-                </li>
-                <li class="nav-item mx-3">
-                    <a class="btn btn-outline-primary font-weight-bold px-4 py-2 d-flex align-items-center login-btn" href="#">
-                        <span class="mr-2">
-                            <!-- ICONA LUCCCHETTO -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
-                              <path d="M8 1a3 3 0 0 0-3 3v3h6V4a3 3 0 0 0-3-3zm-4 3a4 4 0 1 1 8 0v3a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2V4z"/>
-                            </svg>
-                        </span>
-                        Login
-                    </a>
-                </li>
-                <li class="nav-item mx-3">
-                    <a class="btn btn-mazebank-account font-weight-bold px-4 py-2 ml-2" href="#">Apri il Conto Online</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
-    <!-- Copertina con immagine Homepage.png -->
+{% block navbar %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar shadow-sm justify-content-between navbar-mazebank">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'homepage' %}">
+        <img src="{% static 'imgs/logo2.jpg' %}" alt="MazeBank Logo" class="logo-img mr-3">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav w-100 d-flex justify-content-end align-items-center">
+            <li class="nav-item active mx-3">
+                <a class="nav-link font-weight-bold h5 mb-0" href="#">Chi Siamo</a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="nav-link font-weight-bold h5 mb-0" href="#">Servizi</a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="btn btn-outline-primary font-weight-bold px-4 py-2 d-flex align-items-center login-btn" href="#">
+                    <span class="mr-2">
+                        <!-- ICONA LUCCCHETTO -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                          <path d="M8 1a3 3 0 0 0-3 3v3h6V4a3 3 0 0 0-3-3zm-4 3a4 4 0 1 1 8 0v3a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2V4z"/>
+                        </svg>
+                    </span>
+                    Login
+                </a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="btn btn-mazebank-account font-weight-bold px-4 py-2 ml-2" href="{% url 'Banking:register' %}">Apri il Conto Online</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<!-- Solo la parte centrale della pagina (jumbotron nella home, form altrove) -->
     <div class="cover-section">
         <div class="position-relative text-center cover-inner">
             <img src="{% static 'imgs/Homepage.png' %}" alt="Copertina MazeBank"
@@ -113,30 +116,32 @@
             </a>
         </div>
     </div>
+{% endblock %}
 
-    <!-- Footer -->
-    <footer class="footer-custom">
-        <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between py-4">
-            <div class="d-flex align-items-center mb-3 mb-md-0">
-                <img src="{% static 'imgs/logo2.jpg' %}" alt="MazeBank Logo" class="footer-logo mr-3">
+{% block footer %}
+<!-- Footer -->
+<footer class="footer-custom">
+    <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between py-4">
+        <div class="d-flex align-items-center mb-3 mb-md-0">
+            <img src="{% static 'imgs/logo2.jpg' %}" alt="MazeBank Logo" class="footer-logo mr-3">
+        </div>
+        <div class="footer-details text-center text-md-left mt-2 mt-md-0">
+            <div class="mb-1">
+                &copy; {% now "Y" %} Maze Bank S.p.A. - Tutti i diritti riservati
             </div>
-            <div class="footer-details text-center text-md-left mt-2 mt-md-0">
-                <div class="mb-1">
-                    &copy; {% now "Y" %} Maze Bank S.p.A. - Tutti i diritti riservati
-                </div>
-                <div>
-                    Sede legale: Phillbox Hill 123, 00100 Los Santos (San Andreas) &nbsp;|&nbsp; P.IVA 12345678901
-                </div>
-                <div>
-                    <a href="mailto:info@mazebank.it" class="footer-link">info@mazebank.it</a> &nbsp;|&nbsp; <a href="#" class="footer-link">Privacy Policy</a>
-                </div>
+            <div>
+                Sede legale: Phillbox Hill 123, 00100 Los Santos (San Andreas) &nbsp;|&nbsp; P.IVA 12345678901
+            </div>
+            <div>
+                <a href="mailto:info@mazebank.it" class="footer-link">info@mazebank.it</a> &nbsp;|&nbsp; <a href="#" class="footer-link">Privacy Policy</a>
             </div>
         </div>
-    </footer>
-
-    <!-- Bootstrap JS (necessario per la navbar responsive) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+</footer>
 {% endblock %}
+
+<!-- Bootstrap JS (necessario per la navbar responsive) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
