@@ -21,6 +21,8 @@ from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('homepage/', homepage, name='homepage'),
+    path('about/', about, name='us'),
+    path('services/', services, name='services'),
     
     path('banking/', include('Banking.urls')),
 

@@ -8,3 +8,16 @@ def homepage(request):
     """
     return render(request, 'home.html')
 
+
+def about(request):
+    """
+    View function for the about page of the site.
+    """
+    return render(request, 'about.html')
+
+def services(request):
+    """
+    View function for the services page of the site.
+    """
+    return render(request, 'services.html')
+

@@ -1,0 +1,56 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block title %}Servizi - MazeBank{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="max-width: 1450px;">
+    <div class="card shadow-lg rounded-lg border-0" style="background: #fff;">
+        <div class="card-body p-5" style="padding: 4rem !important;">
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h2 class="font-weight-bold text-mazebank-red mb-4" style="font-size:3rem;">I nostri servizi</h2>
+                    <p style="font-size:1.55rem; color:#333; line-height:1.8;">
+                        MazeBank offre una gamma completa di servizi bancari digitali pensati per semplificare la tua vita finanziaria.<br><br>
+                        <strong>Apri il tuo conto online</strong> in pochi minuti e ricevi subito un <span style="color:#970505; font-weight:bold;">bonus di benvenuto di 50€</span> accreditato direttamente sul tuo nuovo conto.<br><br>
+                        Gestisci i tuoi risparmi, effettua bonifici, paga bollette e monitora tutte le tue operazioni in modo semplice e sicuro, ovunque tu sia.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="{% static 'imgs/services.png' %}" alt="Servizi MazeBank" class="img-fluid rounded shadow" style="max-height:560px;">
+                    <div class="mt-3 text-muted" style="font-size:1.2rem;">I servizi digitali MazeBank</div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center order-md-2 mb-4 mb-md-0">
+                    <img src="{% static 'imgs/card.png' %}" alt="Vantaggi MazeBank Card" class="img-fluid rounded shadow tilt-card" style="max-height:530px;">
+                    <div class="mt-3 text-muted" style="font-size:1.2rem;">Ottieni la tua Maze Bank Card gratuitamente</div>
+                </div>
+                <div class="col-md-6 order-md-1">
+                    <h3 class="font-weight-bold text-mazebank-red mb-4" style="font-size:3rem;">Maze Bank Card</h3>
+                    <p style="font-size:1.32rem; color:#333; line-height:1.8;">
+                        Richiedi gratuitamente la <strong>Maze Bank Card</strong>, la carta di credito che ti offre:
+                        <ul style="font-size:1.18rem; color:#333; line-height:1.7;">
+                            <li>Zero costi di emissione e canone annuo gratuito</li>
+                            <li>Pagamenti contactless e online in totale sicurezza</li>
+                            <li>Prelievi gratuiti in tutto il mondo</li>
+                            <li>Gestione della carta direttamente dall’app MazeBank</li>
+                            <li>Assicurazione acquisti inclusa</li>
+                        </ul>
+                        Approfitta di tutti i vantaggi esclusivi riservati ai nostri clienti!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+<script>
+    VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+        max: 25,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.25,
+    });
+</script>
+{% endblock %}

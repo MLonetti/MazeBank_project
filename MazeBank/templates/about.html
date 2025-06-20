@@ -1,0 +1,42 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block title %}Chi Siamo - MazeBank{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="max-width: 1450px;">
+    <div class="card shadow-lg rounded-lg border-0" style="background: #fff;">
+        <div class="card-body p-5" style="padding: 4rem !important;">
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <h2 class="font-weight-bold text-mazebank-red mb-4" style="font-size:3rem;">Chi Siamo</h2>
+                    <p style="font-size:1.55rem; color:#333; line-height:1.8;">
+                        MazeBank è la banca digitale di riferimento per chi cerca sicurezza, innovazione e trasparenza. 
+                        Da anni accompagniamo milioni di clienti nella gestione dei loro risparmi, offrendo servizi bancari all’avanguardia, 
+                        assistenza dedicata e soluzioni personalizzate per ogni esigenza.<br><br>
+                        La nostra missione è rendere la banca semplice, accessibile e sempre vicina a te, ovunque tu sia.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="{% static 'imgs/ChiSiamo.jpg' %}" alt="Posizione MazeBank" class="img-fluid rounded shadow" style="max-height:560px;">
+                    <div class="mt-3 text-muted" style="font-size:1.2rem;">La nostra posizione a Los Santos (SA).</div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center order-md-2 mb-4 mb-md-0">
+                    <img src="{% static 'imgs/sede.png' %}" alt="Sede MazeBank" class="img-fluid rounded shadow" style="max-height:560px;">
+                    <div class="mt-3 text-muted" style="font-size:1.2rem;">La nostra sede.</div>
+                </div>
+                <div class="col-md-6 order-md-1">
+                    <h3 class="font-weight-bold text-mazebank-red mb-4" style="font-size:3rem;">La nostra sede</h3>
+                    <p style="font-size:1.32rem; color:#333; line-height:1.8;">
+                        La sede di Maze Bank si trova nel cuore della città, facilmente raggiungibile e sempre aperta per accogliere clienti e partner.<br>
+                        Qui lavorano i nostri esperti, pronti a supportarti con professionalità e passione.<br><br>
+                        Vieni a trovarci per scoprire tutti i vantaggi di una banca moderna e affidabile!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
