@@ -12,7 +12,7 @@ class User(AbstractUser):
     data_nascita = models.DateField()
     indirizzo = models.CharField(max_length=255)
     citta = models.CharField(max_length=100)
-    cellulare = PhoneNumberField()
+    cellulare = PhoneNumberField(unique=True)  # <--- aggiungi unique=True qui!
     immagine_profilo = models.ImageField(upload_to='profile_images/', blank=True, null=True)
 
     # USERNAME_FIELD resta 'username' (default, che è un CharField)

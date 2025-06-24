@@ -121,6 +121,16 @@ body, .jumbotron, .carousel-caption, .navbar, .footer {
 .navbar-nav .nav-link.active {
     color: #970505 !important;
 }
+
+.navbar-profile-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 2.5px solid #970505;
+    border-radius: 50%;
+    background: #fff;
+}
+
 .btn-outline-primary {
     border-color: #970505;
     color: #970505;
@@ -215,3 +225,41 @@ body, .jumbotron, .carousel-caption, .navbar, .footer {
     color: #fff;
     border-color: #970505;
 }
+.mazebank-toast-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1080;
+    pointer-events: none;
+}
+
+.mazebank-toast {
+    pointer-events: auto;   /* il toast resta cliccabile */
+}
+
+.mazebank-toast-header {
+    background: #970505;
+    color: #fff;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
+
+.mazebank-toast-body {
+    background: #fff0f0;
+    color: #970505;
+    font-weight: 600;
+    font-size: 1.15rem;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+* {
+    cursor: url("../imgs/cursor.cur"), auto !important;
+}
+
+
+
+
