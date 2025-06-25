@@ -6,13 +6,13 @@ class User(AbstractUser):
     # Usiamo gli attributi già presenti: email, first_name, last_name
     # Rendi obbligatoria l'email (unique e blank=False già su AbstractUser, ma puoi rafforzare così:)
     email = models.EmailField('Email', unique=True, blank=False, null=False)
-    first_name = models.CharField(max_length=150, blank=False)  # <--- obbligatorio
-    last_name = models.CharField(max_length=150, blank=False)   # <--- obbligatorio
+    first_name = models.CharField(max_length=150, blank=False)
+    last_name = models.CharField(max_length=150, blank=False)  
 
     data_nascita = models.DateField()
     indirizzo = models.CharField(max_length=255)
     citta = models.CharField(max_length=100)
-    cellulare = PhoneNumberField(unique=True)  # <--- aggiungi unique=True qui!
+    cellulare = PhoneNumberField(unique=True) 
     immagine_profilo = models.ImageField(upload_to='profile_images/', blank=True, null=True)
 
     # USERNAME_FIELD resta 'username' (default, che è un CharField)
@@ -48,5 +48,18 @@ class ContoCorrente(models.Model):
 
     def __str__(self):
         return f"Conto di {self.utente.email} - IBAN: {self.iban}"
+    
+class Transazione(models.Model):
+    conto = models.ForeignKey(
+        ContoCorrente,
+        on_delete=models.CASCADE,
+        related_name='transazioni'
+    )
+    data = models.DateTimeField(auto_now_add=True)
+    importo = models.DecimalField(max_digits=12, decimal_places=2)
+    descrizione = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Transazione {self.id} - {self.importo} su {self.conto.iban} il {self.data}"
 
 

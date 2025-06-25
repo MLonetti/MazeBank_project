@@ -25,6 +25,7 @@ urlpatterns = [
     path('homepage/', homepage, name='homepage'),
     path('about/', about, name='us'),
     path('services/', services, name='services'),
+    path('warning/', warning, name='warning'),
     
     path('banking/', include('Banking.urls')),
 

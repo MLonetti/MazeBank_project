@@ -8,6 +8,12 @@ def homepage(request):
     """
     return render(request, 'home.html')
 
+def warning(request):
+    """
+    View function for the warning page of the site.
+    """
+    return render(request, 'warning.html')
+
 
 def about(request):
     """

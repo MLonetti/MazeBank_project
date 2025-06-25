@@ -22,4 +22,32 @@
         </div>
     </div>
 </div>
+
+{% if request.GET.registration == "succesfull" %}
+  <div aria-live="polite" aria-atomic="true"
+       style="position: fixed; top: 7vh; left: 50%; transform: translateX(-50%); z-index: 1080; width: 100%; display: flex; justify-content: center; pointer-events: none;">
+    <div class="toast mazebank-toast" id="registrationToast" role="alert" data-delay="4000" style="pointer-events: auto;">
+      <div class="toast-header mazebank-toast-header">
+        <strong class="mr-auto">Congratulazioni!</strong>
+        <small>MazeBank</small>
+        <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Chiudi">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body mazebank-toast-body">
+        Benvenuto in Maze Bank! Registrazione avvenuta con successo.<br>
+        Accedi ed esplora il mondo Maze Bank.
+      </div>
+    </div>
+  </div>
+{% endif %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var registrationToast = document.getElementById('registrationToast');
+    if (registrationToast) {
+      var toast = new bootstrap.Toast(registrationToast, { delay: 4000 });
+      toast.show();
+    }
+  });
+</script>
 {% endblock %}

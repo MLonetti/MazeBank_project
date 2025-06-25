@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Attenzione! Azione non consentita</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/warning.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="warning-container">
+        <div class="warning-icon">
+            &#9888;
+        </div>
+        <div class="warning-title">
+            ATTENZIONE!
+        </div>
+        <div class="warning-message">
+            Questa azione non è consentita.<br>
+            Tentare di forzare operazioni non permesse viola le regole di Maze Bank.<br>
+            <strong>Ogni tentativo viene registrato.</strong>
+        </div>
+        <a href="{% url 'homepage' %}" class="btn btn-danger btn-back">
+            Torna alla Home
+        </a>
+    </div>
+</body>
+</html>

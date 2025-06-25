@@ -9,4 +9,5 @@ urlpatterns = [
     path('register/', UserCreateView.as_view(), name='register'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('create_conto_corrente/', create_conto_corrente, name='create_conto_corrente'),
 ]
