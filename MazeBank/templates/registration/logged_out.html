@@ -4,16 +4,40 @@
 {% block title %}Logout - MazeBank{% endblock %}
 
 {% block content %}
-<div class="container my-5 py-5" style="max-width: 600px;">
-    <div class="card shadow-lg border-0">
-        <div class="card-body p-5 text-center">
-            <h2 class="text-mazebank-red font-weight-bold mb-4" style="font-size:2.2rem;">Logout effettuato</h2>
-            <p class="mb-4" style="font-size:1.2rem;">
+<style>
+.fcard-lg {
+    padding: 3rem 3rem;
+    font-size: 1.5rem;
+    border-radius: 2rem;
+    box-shadow: 0 12px 48px #97050533;
+    max-width: 900px;
+    min-width: 380px;
+    margin: 3rem auto;
+}
+.fcard-lg .card-body {
+    padding: 3rem 2.5rem;
+}
+.fcard-lg h2 {
+    font-size: 3rem;
+}
+.fcard-lg p {
+    font-size: 1.6rem;
+}
+.fcard-lg .btn {
+    font-size: 1.25rem;
+    padding: 1.1rem 2.8rem;
+}
+</style>
+<div class="container my-5 py-5" style="max-width: 900px;">
+    <div class="card shadow-lg border-0 fcard-lg">
+        <div class="card-body text-center">
+            <h2 class="text-mazebank-red font-weight-bold mb-4">Logout effettuato</h2>
+            <p class="mb-4">
                 Grazie per aver utilizzato MazeBank.<br>
                 Speriamo di rivederti presto!
             </p>
-            <a href="{% url 'homepage' %}" class="btn btn-mazebank-account font-weight-bold px-4 py-2 mr-2">Torna alla Home</a>
-            <a href="{% url 'Banking:login' %}" class="btn btn-outline-primary font-weight-bold px-4 py-2 ml-2">Accedi di nuovo</a>
+            <a href="{% url 'homepage' %}" class="btn btn-mazebank-account font-weight-bold px-4 py-3 mr-2">Torna alla Home</a>
+            <a href="{% url 'Banking:login' %}" class="btn btn-outline-primary font-weight-bold px-4 py-3 ml-2">Accedi di nuovo</a>
         </div>
     </div>
 </div>

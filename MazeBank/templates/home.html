@@ -67,14 +67,37 @@
                 </li>
             {% else %}
                 <li class="nav-item mx-3 d-flex align-items-center">
-                    <span class="font-weight-bold mr-2" style="font-size:1.1rem;">
+                    <span class="font-weight-bold mr-2" style="font-size:1.5rem;">
                         Ciao, {{ request.user.first_name|default:request.user.username }}!
                     </span>
-                    {% if request.user.immagine_profilo %}
-                        <img src="{{ request.user.immagine_profilo.url }}" alt="Profilo" class="navbar-profile-img ml-2">
-                    {% else %}
-                        <img src="{% static 'imgs/default_profile.png' %}" alt="Profilo" class="navbar-profile-img ml-2">
-                    {% endif %}
+                    <div class="d-flex align-items-center">
+                        {% if request.user.immagine_profilo %}
+                            <img src="{{ request.user.immagine_profilo.url }}" alt="Profilo" class="navbar-profile-img ml-2">
+                        {% else %}
+                            <img src="{% static 'imgs/default_profile.png' %}" alt="Profilo" class="navbar-profile-img ml-2">
+                        {% endif %}
+                        <!-- Dropdown Bootstrap -->
+                        <div class="dropdown ml-2">
+                            <button class="btn btn-outline-secondary dropdown-toggle px-3 py-2 d-flex align-items-center" type="button" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <!-- Icona hamburger SVG -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-list mr-2" viewBox="0 0 16 16">
+                                  <path fill-rule="evenodd" d="M2.5 12.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0-5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm0-5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11z"/>
+                                </svg>
+                                <span class="sr-only">Menu utente</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right mazebank-dropdown" aria-labelledby="profileDropdown">
+                                <h6 class="dropdown-header text-mazebank-red font-weight-bold">Utente</h6>
+                                <a class="dropdown-item" href="#">Vai al tuo profilo</a>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header text-mazebank-red font-weight-bold">Pagamenti</h6>
+                                <a class="dropdown-item" href="#">Invia bonifico</a>
+                                <a class="dropdown-item" href="#">Invia soldi ad un amico</a>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header text-mazebank-red font-weight-bold">Movimenti</h6>
+                                <a class="dropdown-item" href="#">Estratto conto</a>
+                            </div>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item mx-3">
                     <form action="{% url 'Banking:logout' %}" method="post" style="display:inline;">

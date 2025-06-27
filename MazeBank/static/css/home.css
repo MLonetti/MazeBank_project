@@ -123,8 +123,8 @@ body, .jumbotron, .carousel-caption, .navbar, .footer {
 }
 
 .navbar-profile-img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border: 2.5px solid #970505;
     border-radius: 50%;
@@ -256,10 +256,61 @@ body, .jumbotron, .carousel-caption, .navbar, .footer {
     gap: 0.7rem;
 }
 
+.mazebank-dropdown .dropdown-header {
+    font-size: 1.25rem;
+    color: #970505 !important;
+    background: #fff;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    letter-spacing: 1px;
+}
+
+.mazebank-dropdown .dropdown-item {
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+    color: #111 !important;   /* nero */
+}
+
+.mazebank-dropdown .dropdown-item:hover,
+.mazebank-dropdown .dropdown-item:focus {
+    background-color: #970505 !important;
+    color: #fff !important;
+}
+
+.mazebank-dropdown .dropdown-divider {
+    border-top: 2px solid #970505;
+    margin: 0.3rem 0;
+}
+
+.mazebank-dropdown {
+    border: 2.5px solid #970505 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 16px #97050522;
+}
+
+#profileDropdown.btn-outline-secondary {
+    border: 2.5px solid #970505 !important;
+    color: #970505 !important;
+    background: #fff !important;
+}
+#profileDropdown.btn-outline-secondary:hover,
+#profileDropdown.btn-outline-secondary:focus {
+    background: #970505 !important;
+    color: #fff !important;
+}
+
 * {
     cursor: url("../imgs/cursor.cur"), auto !important;
 }
-
-
-
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInMove 0.8s cubic-bezier(.23,1.01,.32,1) forwards;
+}
+@keyframes fadeInMove {
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
 
