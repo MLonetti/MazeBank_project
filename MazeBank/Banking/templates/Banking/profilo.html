@@ -1,0 +1,201 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block title %}Profilo utente - MazeBank{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/Banking/profilo.css' %}">
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="profile-dashboard card shadow-lg p-4">
+                <div class="text-center mb-4 position-relative">
+                    <div id="img-row">
+                        {% if request.user.immagine_profilo %}
+                            <img src="{{ request.user.immagine_profilo.url }}" alt="Immagine profilo" class="profile-img-lg mb-3" id="profile-img">
+                        {% else %}
+                            <img src="{% static 'imgs/default_profile.png' %}" alt="Immagine profilo" class="profile-img-lg mb-3" id="profile-img">
+                        {% endif %}
+                        <button class="edit-btn-profile" title="Modifica immagine profilo" onclick="showImgForm()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#970505" viewBox="0 0 16 16">
+                              <path d="M15.502 1.94a1.5 1.5 0 0 1 0 2.12l-1.439 1.439-2.12-2.12 1.439-1.439a1.5 1.5 0 0 1 2.12 0zM14.061 5.439l-2.12-2.12-8.439 8.439a.5.5 0 0 0-.121.196l-1 3a.5.5 0 0 0 .633.633l3-1a.5.5 0 0 0 .196-.12l8.439-8.439z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="img-form-row" style="display:none;">
+                        <form id="img-form" enctype="multipart/form-data" onsubmit="return submitImgForm(event);">
+                            {% csrf_token %}
+                            <input type="file" name="immagine_profilo" id="img-input" accept="image/*" required>
+                            <button type="submit" class="btn btn-sm btn-success">Salva</button>
+                            <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="hideImgForm()">Annulla</button>
+                        </form>
+                    </div>
+                    <h2 class="font-weight-bold text-mazebank-red mt-2">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+                    <p class="text-muted">@{{ request.user.username }}</p>
+                </div>
+                <div class="user-info-section">
+                    <h5 class="text-mazebank-red font-weight-bold mb-3">Dati personali</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center" id="email-row">
+                            Email: <span class="font-weight-bold" id="email-value">{{ request.user.email }}</span>
+                            <button class="edit-btn-field" title="Modifica email" onclick="showEmailForm()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#970505" viewBox="0 0 16 16"><path d="M15.502 1.94a1.5 1.5 0 0 1 0 2.12l-1.439 1.439-2.12-2.12 1.439-1.439a1.5 1.5 0 0 1 2.12 0zM14.061 5.439l-2.12-2.12-8.439 8.439a.5.5 0 0 0-.121.196l-1 3a.5.5 0 0 0 .633.633l3-1a.5.5 0 0 0 .196-.12l8.439-8.439z"/></svg>
+                            </button>
+                        </li>
+                        <li class="list-group-item" id="email-form-row" style="display:none;">
+                            <form id="email-form" class="form-inline" autocomplete="off" onsubmit="return submitCampoForm(event, 'email');">
+                                {% csrf_token %}
+                                <input type="email" name="email" id="email-input" class="form-control mr-2" value="{{ request.user.email }}" required autocomplete="off">
+                                <button type="submit" class="btn btn-sm btn-success">Salva</button>
+                                <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="hideEmailForm()">Annulla</button>
+                            </form>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" id="telefono-row">
+                            Telefono: <span class="font-weight-bold" id="telefono-value">{{ request.user.cellulare }}</span>
+                            <button class="edit-btn-field" title="Modifica telefono" onclick="showTelefonoForm()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#970505" viewBox="0 0 16 16"><path d="M15.502 1.94a1.5 1.5 0 0 1 0 2.12l-1.439 1.439-2.12-2.12 1.439-1.439a1.5 1.5 0 0 1 2.12 0zM14.061 5.439l-2.12-2.12-8.439 8.439a.5.5 0 0 0-.121.196l-1 3a.5.5 0 0 0 .633.633l3-1a.5.5 0 0 0 .196-.12l8.439-8.439z"/></svg>
+                            </button>
+                        </li>
+                        <li class="list-group-item" id="telefono-form-row" style="display:none;">
+                            <form id="telefono-form" class="form-inline" autocomplete="off" onsubmit="return submitCampoForm(event, 'cellulare');">
+                                {% csrf_token %}
+                                <input type="text" name="cellulare" id="telefono-input" class="form-control mr-2" value="{{ request.user.cellulare }}" required autocomplete="off">
+                                <button type="submit" class="btn btn-sm btn-success">Salva</button>
+                                <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="hideTelefonoForm()">Annulla</button>
+                            </form>
+                        </li>
+                        <li class="list-group-item">Data di nascita: <span class="font-weight-bold">{{ request.user.data_nascita }}</span></li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center" id="indirizzo-row">
+                            Indirizzo: <span class="font-weight-bold" id="indirizzo-value">{{ request.user.indirizzo }}</span>
+                            <button class="edit-btn-field" title="Modifica indirizzo" onclick="showIndirizzoForm()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#970505" viewBox="0 0 16 16"><path d="M15.502 1.94a1.5 1.5 0 0 1 0 2.12l-1.439 1.439-2.12-2.12 1.439-1.439a1.5 1.5 0 0 1 2.12 0zM14.061 5.439l-2.12-2.12-8.439 8.439a.5.5 0 0 0-.121.196l-1 3a.5.5 0 0 0 .633.633l3-1a.5.5 0 0 0 .196-.12l8.439-8.439z"/></svg>
+                            </button>
+                        </li>
+                        <li class="list-group-item" id="indirizzo-form-row" style="display:none;">
+                            <form id="indirizzo-form" class="form-inline" autocomplete="off" onsubmit="return submitCampoForm(event, 'indirizzo');">
+                                {% csrf_token %}
+                                <input type="text" name="indirizzo" id="indirizzo-input" class="form-control mr-2" value="{{ request.user.indirizzo }}" required autocomplete="off">
+                                <button type="submit" class="btn btn-sm btn-success">Salva</button>
+                                <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="hideIndirizzoForm()">Annulla</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// --- Immagine profilo ---
+function showImgForm() {
+    document.getElementById('img-row').style.display = 'none';
+    document.getElementById('img-form-row').style.display = '';
+}
+function hideImgForm() {
+    document.getElementById('img-row').style.display = '';
+    document.getElementById('img-form-row').style.display = 'none';
+}
+function submitImgForm(event) {
+    event.preventDefault();
+    var form = document.getElementById('img-form');
+    var formData = new FormData(form);
+    fetch('{% url "Banking:ajax_modifica_campo" request.user.pk %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('profile-img').src = data.img_url;
+            hideImgForm();
+        } else if (data.redirect_url) {
+            window.location.href = data.redirect_url;
+        } else {
+            alert('Si è verificato un errore.');
+        }
+    });
+    return false;
+}
+// --- Email ---
+function showEmailForm() {
+    document.getElementById('email-row').style.display = 'none';
+    document.getElementById('email-form-row').style.display = '';
+}
+function hideEmailForm() {
+    document.getElementById('email-row').style.display = '';
+    document.getElementById('email-form-row').style.display = 'none';
+}
+// --- Telefono ---
+function showTelefonoForm() {
+    document.getElementById('telefono-row').style.display = 'none';
+    document.getElementById('telefono-form-row').style.display = '';
+}
+function hideTelefonoForm() {
+    document.getElementById('telefono-row').style.display = '';
+    document.getElementById('telefono-form-row').style.display = 'none';
+}
+// --- Indirizzo ---
+function showIndirizzoForm() {
+    document.getElementById('indirizzo-row').style.display = 'none';
+    document.getElementById('indirizzo-form-row').style.display = '';
+}
+function hideIndirizzoForm() {
+    document.getElementById('indirizzo-row').style.display = '';
+    document.getElementById('indirizzo-form-row').style.display = 'none';
+}
+// --- Submit campi ---
+function submitCampoForm(event, campo) {
+    event.preventDefault();
+    var form = event.target;
+    // Individua l'input giusto in base al campo
+    var inputSelector = '';
+    if (campo === 'email') inputSelector = 'input[name=email]';
+    else if (campo === 'cellulare') inputSelector = 'input[name=cellulare]';
+    else if (campo === 'indirizzo') inputSelector = 'input[name=indirizzo]';
+    else inputSelector = 'input';
+    var valore = form.querySelector(inputSelector).value;
+    var csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+    fetch('{% url "Banking:ajax_modifica_campo" request.user.pk %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ campo: campo, valore: valore })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (campo === 'email') {
+                document.getElementById('email-value').innerText = data.valore;
+                hideEmailForm();
+            } else if (campo === 'cellulare') {
+                document.getElementById('telefono-value').innerText = data.valore;
+                hideTelefonoForm();
+            } else if (campo === 'indirizzo') {
+                document.getElementById('indirizzo-value').innerText = data.valore;
+                hideIndirizzoForm();
+            }
+        } else if (data.redirect_url) {
+            window.location.href = data.redirect_url;
+        } else {
+            alert('Si è verificato un errore.');
+        }
+    });
+    return false;
+}
+</script>
+</script>
+<!-- Campo di test per debug manipolazione esterna -->
+<div style="display:none;">
+    <form id="test-f" autocomplete="off" onsubmit="alert('Test value: ' + document.getElementById('test-in').value); return false;">
+        <input type="text" name="testfield" id="test-in" value="valore-di-test" autocomplete="off">
+        <button type="submit">Test</button>
+    </form>
+</div>
+{% endblock %}
+

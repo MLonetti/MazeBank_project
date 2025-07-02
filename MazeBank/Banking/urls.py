@@ -1,5 +1,6 @@
 from django.urls import path
 from Banking.views.authentication_views.views import *
+from Banking.views.account_views.views import *
 from django.contrib.auth import views as auth_views
 
 
@@ -13,4 +14,6 @@ urlpatterns = [
     path('create_conto_corrente/', create_conto_corrente, name='create_conto_corrente'),
 
     # URL account_views
+    path('profilo/<pk>', DetailProfilo.as_view(), name='profilo'),
+    path('profilo/<pk>/ajax_modifica_campo/', ajax_modifica_campo, name='ajax_modifica_campo'),
 ]
