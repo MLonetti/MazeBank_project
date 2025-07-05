@@ -1,0 +1,22 @@
+.conto-dashboard {
+    padding: 4rem 4rem 3.5rem 4rem;
+    font-size: 1.35rem;
+    border-radius: 2rem;
+    max-width: 850px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px 0 rgba(0,0,0,0.13);
+}
+
+.conto-dashboard h2 {
+    font-size: 3rem;
+}
+
+.conto-dashboard .list-group-item {
+    font-size: 1.4rem;
+    padding: 1.5rem 2.2rem;
+}
+
+.conto-dashboard .btn {
+    font-size: 1.25rem;
+    padding: 1rem
+}

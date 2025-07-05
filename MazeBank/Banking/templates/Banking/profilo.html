@@ -11,8 +11,8 @@
             <div class="profile-dashboard card shadow-lg p-4">
                 <div class="text-center mb-4 position-relative">
                     <div id="img-row">
-                        {% if request.user.immagine_profilo %}
-                            <img src="{{ request.user.immagine_profilo.url }}" alt="Immagine profilo" class="profile-img-lg mb-3" id="profile-img">
+                        {% if user.immagine_profilo %}
+                            <img src="{{ user.immagine_profilo.url }}" alt="Immagine profilo" class="profile-img-lg mb-3" id="profile-img">
                         {% else %}
                             <img src="{% static 'imgs/default_profile.png' %}" alt="Immagine profilo" class="profile-img-lg mb-3" id="profile-img">
                         {% endif %}
@@ -30,14 +30,14 @@
                             <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="hideImgForm()">Annulla</button>
                         </form>
                     </div>
-                    <h2 class="font-weight-bold text-mazebank-red mt-2">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
-                    <p class="text-muted">@{{ request.user.username }}</p>
+                    <h2 class="font-weight-bold text-mazebank-red mt-2">{{ user.first_name }} {{ user.last_name }}</h2>
+                    <p class="text-muted">@{{ user.username }}</p>
                 </div>
                 <div class="user-info-section">
                     <h5 class="text-mazebank-red font-weight-bold mb-3">Dati personali</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center" id="email-row">
-                            Email: <span class="font-weight-bold" id="email-value">{{ request.user.email }}</span>
+                            Email: <span class="font-weight-bold" id="email-value">{{ user.email }}</span>
                             <button class="edit-btn-field" title="Modifica email" onclick="showEmailForm()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#970505" viewBox="0 0 16 16"><path d="M15.502 1.94a1.5 1.5 0 0 1 0 2.12l-1.439 1.439-2.12-2.12 1.439-1.439a1.5 1.5 0 0 1 2.12 0zM14.061 5.439l-2.12-2.12-8.439 8.439a.5.5 0 0 0-.121.196l-1 3a.5.5 0 0 0 .633.633l3-1a.5.5 0 0 0 .196-.12l8.439-8.439z"/></svg>
                             </button>
@@ -45,13 +45,13 @@
                         <li class="list-group-item" id="email-form-row" style="display:none;">
                             <form id="email-form" class="form-inline" autocomplete="off" onsubmit="return submitCampoForm(event, 'email');">
                                 {% csrf_token %}
-                                <input type="email" name="email" id="email-input" class="form-control mr-2" value="{{ request.user.email }}" required autocomplete="off">
+                                <input type="email" name="email" id="email-input" class="form-control mr-2" value="{{ user.email }}" required autocomplete="off">
                                 <button type="submit" class="btn btn-sm btn-success">Salva</button>
                                 <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="hideEmailForm()">Annulla</button>
                             </form>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" id="telefono-row">
-                            Telefono: <span class="font-weight-bold" id="telefono-value">{{ request.user.cellulare }}</span>
+                            Telefono: <span class="font-weight-bold" id="telefono-value">{{ user.cellulare }}</span>
                             <button class="edit-btn-field" title="Modifica telefono" onclick="showTelefonoForm()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#970505" viewBox="0 0 16 16"><path d="M15.502 1.94a1.5 1.5 0 0 1 0 2.12l-1.439 1.439-2.12-2.12 1.439-1.439a1.5 1.5 0 0 1 2.12 0zM14.061 5.439l-2.12-2.12-8.439 8.439a.5.5 0 0 0-.121.196l-1 3a.5.5 0 0 0 .633.633l3-1a.5.5 0 0 0 .196-.12l8.439-8.439z"/></svg>
                             </button>
@@ -59,14 +59,14 @@
                         <li class="list-group-item" id="telefono-form-row" style="display:none;">
                             <form id="telefono-form" class="form-inline" autocomplete="off" onsubmit="return submitCampoForm(event, 'cellulare');">
                                 {% csrf_token %}
-                                <input type="text" name="cellulare" id="telefono-input" class="form-control mr-2" value="{{ request.user.cellulare }}" required autocomplete="off">
+                                <input type="text" name="cellulare" id="telefono-input" class="form-control mr-2" value="{{ user.cellulare }}" required autocomplete="off" placeholder="+39...">
                                 <button type="submit" class="btn btn-sm btn-success">Salva</button>
                                 <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="hideTelefonoForm()">Annulla</button>
                             </form>
                         </li>
-                        <li class="list-group-item">Data di nascita: <span class="font-weight-bold">{{ request.user.data_nascita }}</span></li>
+                        <li class="list-group-item">Data di nascita: <span class="font-weight-bold">{{ user.data_nascita }}</span></li>
                         <li class="list-group-item d-flex justify-content-between align-items-center" id="indirizzo-row">
-                            Indirizzo: <span class="font-weight-bold" id="indirizzo-value">{{ request.user.indirizzo }}</span>
+                            Indirizzo: <span class="font-weight-bold" id="indirizzo-value">{{ user.indirizzo }}</span>
                             <button class="edit-btn-field" title="Modifica indirizzo" onclick="showIndirizzoForm()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#970505" viewBox="0 0 16 16"><path d="M15.502 1.94a1.5 1.5 0 0 1 0 2.12l-1.439 1.439-2.12-2.12 1.439-1.439a1.5 1.5 0 0 1 2.12 0zM14.061 5.439l-2.12-2.12-8.439 8.439a.5.5 0 0 0-.121.196l-1 3a.5.5 0 0 0 .633.633l3-1a.5.5 0 0 0 .196-.12l8.439-8.439z"/></svg>
                             </button>
@@ -74,7 +74,7 @@
                         <li class="list-group-item" id="indirizzo-form-row" style="display:none;">
                             <form id="indirizzo-form" class="form-inline" autocomplete="off" onsubmit="return submitCampoForm(event, 'indirizzo');">
                                 {% csrf_token %}
-                                <input type="text" name="indirizzo" id="indirizzo-input" class="form-control mr-2" value="{{ request.user.indirizzo }}" required autocomplete="off">
+                                <input type="text" name="indirizzo" id="indirizzo-input" class="form-control mr-2" value="{{ user.indirizzo }}" required autocomplete="off">
                                 <button type="submit" class="btn btn-sm btn-success">Salva</button>
                                 <button type="button" class="btn btn-sm btn-secondary ml-1" onclick="hideIndirizzoForm()">Annulla</button>
                             </form>
@@ -99,7 +99,7 @@ function submitImgForm(event) {
     event.preventDefault();
     var form = document.getElementById('img-form');
     var formData = new FormData(form);
-    fetch('{% url "Banking:ajax_modifica_campo" request.user.pk %}', {
+    fetch('{% url "Banking:ajax_modifica_campo" user.pk %}', {
         method: 'POST',
         body: formData,
         headers: {
@@ -182,6 +182,8 @@ function submitCampoForm(event, campo) {
             }
         } else if (data.redirect_url) {
             window.location.href = data.redirect_url;
+        } else if (data.error) {
+            alert(data.error);
         } else {
             alert('Si è verificato un errore.');
         }

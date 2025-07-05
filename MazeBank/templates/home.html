@@ -72,9 +72,13 @@
                     </span>
                     <div class="d-flex align-items-center">
                         {% if request.user.immagine_profilo %}
-                            <img src="{{ request.user.immagine_profilo.url }}" alt="Profilo" class="navbar-profile-img ml-2">
+                            <a href="{% url 'Banking:profilo' request.user.pk %}">
+                                <img src="{{ request.user.immagine_profilo.url }}" alt="Profilo" class="navbar-profile-img ml-2" style="cursor:pointer;">
+                            </a>
                         {% else %}
-                            <img src="{% static 'imgs/default_profile.png' %}" alt="Profilo" class="navbar-profile-img ml-2">
+                            <a href="{% url 'Banking:profilo' request.user.pk %}">
+                                <img src="{% static 'imgs/default_profile.png' %}" alt="Profilo" class="navbar-profile-img ml-2" style="cursor:pointer;">
+                            </a>
                         {% endif %}
                         <!-- Dropdown Bootstrap -->
                         <div class="dropdown ml-2">
@@ -88,9 +92,10 @@
                             <div class="dropdown-menu dropdown-menu-right mazebank-dropdown" aria-labelledby="profileDropdown">
                                 <h6 class="dropdown-header text-mazebank-red font-weight-bold">Utente</h6>
                                 <a class="dropdown-item" href="{% url 'Banking:profilo' request.user.pk %}">Vai al tuo profilo</a>
+                                <a class="dropdown-item" href="{% url 'Banking:conto_corrente' request.user.pk %}">Vai al tuo Conto Corrente</a>
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header text-mazebank-red font-weight-bold">Pagamenti</h6>
-                                <a class="dropdown-item" href="#">Invia bonifico</a>
+                                <a class="dropdown-item" href="{% url 'Banking:bonifici' %}">Invia bonifico</a>
                                 <a class="dropdown-item" href="#">Invia soldi ad un amico</a>
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header text-mazebank-red font-weight-bold">Movimenti</h6>

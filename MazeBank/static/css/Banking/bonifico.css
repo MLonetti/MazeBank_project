@@ -1,0 +1,87 @@
+.bonifico-esito-card {
+    padding: 4rem 2.5rem !important;
+    border-radius: 2rem !important;
+    font-size: 2rem !important;
+    max-width: 700px !important;
+    min-height: 0 !important;
+    margin: 2rem auto !important;
+    box-shadow: 0 0 40px 0 rgba(0,0,0,0.15) !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+.bonifico-esito-card .esito-title {
+    font-size: 5.6rem !important;
+    font-weight: bold !important;
+    margin-bottom: 3.6rem !important;
+}
+
+.bonifico-esito-card ul {
+    text-align: left;
+    font-size: 1.5em; 
+    margin: 2em auto;
+    display: inline-block;
+}
+
+.bonifico-esito-card ul li {
+    margin-bottom: 1em;
+}
+
+.bonifico-esito-card .esito-success {
+    color: #198754 !important;
+}
+
+.bonifico-esito-card .esito-error {
+    color: #b02a37 !important;
+}
+
+.bonifico-esito-card .btn,
+.bonifico-esito-card .btn-outline-primary,
+.bonifico-esito-card .btn-outline-danger {
+    font-size: 2.4rem !important;
+    padding: 1.6rem 5.6rem !important;
+    border-radius: 2.4rem !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s, transform 0.3s !important;
+}
+
+.bonifico-esito-card .btn-outline-secondary {
+    border-color: #dc3545 !important;
+    color: #dc3545 !important;
+    background: transparent !important;
+    transition: background 0.2s, color 0.2s;
+}
+.bonifico-esito-card .btn-outline-secondary:hover,
+.bonifico-esito-card .btn-outline-secondary:focus {
+    background: #dc3545 !important;
+    color: #fff !important;
+    border-color: #dc3545 !important;
+}
+
+.bonifico-esito-card .esito-messaggio-successo,
+.bonifico-esito-card .esito-messaggio-errore {
+    font-size: 2em;
+    margin-bottom: 2em;
+}
+.bonifico-esito-card .esito-messaggio-errore {
+    color: #b02a37;
+}
+.bonifico-esito-card .esito-titolo-dati {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+}
+.bonifico-esito-card .esito-titolo {
+    font-size: 3.5em !important;
+    font-weight: bold !important;
+    margin-bottom: 0.2em !important;
+    line-height: 1.1 !important;
+}
+
+.bonifico-esito-card .esito-sottotitolo {
+    font-size: 2.2em !important;
+    font-weight: 400 !important;
+    margin-bottom: 2em !important;
+    line-height: 1.2 !important;
+}

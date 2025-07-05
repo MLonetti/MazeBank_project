@@ -1,0 +1,45 @@
+{% extends "home.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/Banking/bonifico.css' %}">
+{% block title %}Esito Bonifico - MazeBank{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card bonifico-esito-card shadow-lg p-4">
+                {% if esito.successo %}
+                    <div class="esito-messaggio-successo">
+                        <div style="font-size:3.0em; font-weight:bold; margin-bottom:0.2em; line-height:1.1;">
+                            Grazie per aver utilizzato MazeBank!
+                        </div>
+                        <div style="font-size:2.0em; font-weight:400; margin-bottom:2em; line-height:1.2;">
+                            La tua operazione è stata registrata e riceverai una notifica di conferma.
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="esito-messaggio-errore">
+                        <div style="font-size:3.0em; font-weight:bold; margin-bottom:0.2em; line-height:1.1;">
+                            Si è verificato un problema nell'invio del bonifico.
+                        </div>
+                        <div style="font-size:2.0em; font-weight:400; margin-bottom:2em; line-height:1.2;">
+                            {{ esito.errore }}
+                        </div>
+                    </div>
+                {% endif %}
+                <h3 class="esito-titolo-dati">Dati del destinatario:</h3>
+                <ul>
+                    <li><strong>Destinatario:</strong> {{ esito.nome }} {{ esito.cognome }}</li>
+                    <li><strong>IBAN:</strong> {{ esito.iban }}</li>
+                    <li><strong>Importo:</strong> € {{ esito.importo }}</li>
+                    <li><strong>Causale:</strong> {{ esito.causale }}</li>
+                </ul>
+                <div style="margin: 3em 0;"></div>
+                <div class="mt-3 d-flex justify-content-center gap-3">
+                    <a href="{% url 'Banking:bonifici' %}" class="btn btn-outline-primary btn-lg mr-3">Effettua un altro bonifico</a>
+                    <a href="{% url 'homepage' %}" class="btn btn-outline-danger btn-lg">Vai alla Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
