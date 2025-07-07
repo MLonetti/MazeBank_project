@@ -1,14 +1,14 @@
-from Banking.models import User, ContoCorrente
-from django.views.generic import DetailView
+from Banking.models import User, ContoCorrente, Transazione
+from django.views.generic import DetailView, ListView
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 import json
-from Banking.forms import BonificoForm
-from decimal import Decimal
+from Banking.forms import BonificoForm, FiltroTransazioniForm
+from django.db import models
 
 ######################################################################################
 # VIEW CHE GESTISCE LA VISUALIZZAZIONE DEL PROFILO UTENTE
@@ -134,6 +134,17 @@ def make_bonifico(request):
                 conto_dest.saldo += importo
                 conto_mitt.save()
                 conto_dest.save()
+                # Dopo aver aggiornato i saldi...
+
+                # Creiamo qui le entry Transazione per il bonifico
+                Transazione.objects.create(
+                    tipo='bonifico',
+                    conto_sorgente=conto_mitt,
+                    conto_destinazione=conto_dest,
+                    importo=importo,
+                    causale=causale
+                )
+                
                 request.session['esito_bonifico'] = {
                     'nome': nome,
                     'cognome': cognome,
@@ -176,3 +187,89 @@ def bonifico_esito(request):
         return redirect('Banking:bonifici')
     return render(request, "Banking/bonifico_esito.html", {"esito": esito})
 
+
+######################################################################################
+# VIEW CHE GESTISCE L'ESTRATTO CONTO DELL'UTENTE:
+#   MOSTRA TUTTE LE TRANSAZIONI DEL CONTO CORRENTE
+#   OVVIAMENTE SIA LE TRANSAZIONI IN USCITA CHE IN ENTRATA
+######################################################################################
+
+class estratto_conto(LoginRequiredMixin, ListView):
+    model = Transazione
+    template_name = 'Banking/estratto_conto.html'
+    context_object_name = 'transazioni'
+
+    def get_queryset(self):
+        conto_utente = self.request.user.conto_corrente
+        return Transazione.objects.filter(
+            models.Q(conto_sorgente=conto_utente) | models.Q(conto_destinazione=conto_utente)
+        ).order_by('-data')
+
+    # passiamo anche come ctx il form per il filtraggio delle transazioni
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from Banking.forms import FiltroTransazioniForm
+        context['filtro_form'] = FiltroTransazioniForm()
+        return context
+    
+
+######################################################################################
+# VIEW AJAX PER FILTRARE LE TRANSAZIONI DELL'UTENTE:
+#   RICEVE I PARAMETRI DI FILTRO (CAMPO E VALORE)
+#   E RESTITUISCE UN JSON CON LE TRANSAZIONI FILTRATE
+######################################################################################
+
+@login_required
+@require_GET
+def ajax_filtra_transazioni(request):
+    campo = request.GET.get('campo')
+    valore = request.GET.get('valore', '').strip()
+    conto_utente = request.user.conto_corrente
+
+    transazioni = Transazione.objects.filter(
+        models.Q(conto_sorgente=conto_utente) | models.Q(conto_destinazione=conto_utente)
+    )
+
+    if campo and valore:
+        if campo == 'nome':
+            transazioni = transazioni.filter(
+                models.Q(conto_sorgente__utente__first_name__icontains=valore) |
+                models.Q(conto_destinazione__utente__first_name__icontains=valore)
+            )
+        elif campo == 'cognome':
+            transazioni = transazioni.filter(
+                models.Q(conto_sorgente__utente__last_name__icontains=valore) |
+                models.Q(conto_destinazione__utente__last_name__icontains=valore)
+            )
+        elif campo == 'iban':
+            transazioni = transazioni.filter(
+                models.Q(conto_sorgente__iban__icontains=valore) |
+                models.Q(conto_destinazione__iban__icontains=valore)
+            )
+        elif campo == 'importo':
+            try:
+                importo_val = float(valore.replace(',', '.'))
+                transazioni = transazioni.filter(importo=importo_val)
+            except ValueError:
+                transazioni = transazioni.none()
+        elif campo == 'tipo':
+            transazioni = transazioni.filter(tipo__icontains=valore)
+
+    data = []
+    for t in transazioni.order_by('-data'):
+        is_uscita = t.conto_sorgente == conto_utente
+        controparte = t.conto_destinazione if is_uscita else t.conto_sorgente
+        data.append({
+            'data': t.data.strftime("%d/%m/%Y %H:%M"),
+            'tipo': t.get_tipo_display(),
+            'descrizione': (
+                f"Bonifico inviato a {controparte.utente.get_full_name()} ({controparte.iban})" if is_uscita and t.tipo == 'bonifico'
+                else f"Bonifico ricevuto da {controparte.utente.get_full_name()} ({controparte.iban})" if not is_uscita and t.tipo == 'bonifico'
+                else f"Soldi inviati a {controparte.utente.get_full_name()}" if is_uscita and t.tipo == 'invio_soldi_amico'
+                else f"Soldi ricevuti da {controparte.utente.get_full_name()}" if not is_uscita and t.tipo == 'invio_soldi_amico'
+                else "Transazione"
+            ),
+            'importo': f"{'-' if is_uscita else '+'}{t.importo} €",
+            'importo_class': "importo-uscita" if is_uscita else "importo-entrata",
+        })
+    return JsonResponse({'transazioni': data})

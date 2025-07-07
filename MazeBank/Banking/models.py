@@ -50,16 +50,35 @@ class ContoCorrente(models.Model):
         return f"Conto di {self.utente.email} - IBAN: {self.iban}"
     
 class Transazione(models.Model):
-    conto = models.ForeignKey(
-        ContoCorrente,
-        on_delete=models.CASCADE,
-        related_name='transazioni'
+    TIPO_CHOICES = [
+        ('bonifico', 'Bonifico'),
+        ('invio_soldi_amico', 'Invio soldi ad amico'),
+        # altri tipi in futuro
+    ]
+    tipo = models.CharField(
+        max_length=30,
+        choices=TIPO_CHOICES,
+        default='bonifico' 
     )
-    data = models.DateTimeField(auto_now_add=True)
+    conto_sorgente = models.ForeignKey(
+        ContoCorrente,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='transazioni_uscita'
+    )
+    conto_destinazione = models.ForeignKey(
+        ContoCorrente,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='transazioni_entrata'
+    )
     importo = models.DecimalField(max_digits=12, decimal_places=2)
-    descrizione = models.CharField(max_length=255)
+    causale = models.CharField(max_length=255, blank=True, null=True)
+    data = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Transazione {self.id} - {self.importo} su {self.conto.iban} il {self.data}"
+        return f"{self.get_tipo_display()} {self.importo}€ da {self.conto_sorgente} a {self.conto_destinazione} il {self.data}"
 
 

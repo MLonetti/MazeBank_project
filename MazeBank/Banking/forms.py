@@ -52,3 +52,18 @@ class BonificoForm(forms.Form):
     cognome = forms.CharField(label="Cognome destinatario", max_length=100)
     importo = forms.DecimalField(label="Importo (€)", min_value=0.01, decimal_places=2, max_digits=12)
     causale = forms.CharField(label="Causale", max_length=255, required=False, widget=forms.TextInput(attrs={'placeholder': 'Facoltativo'}))
+
+#####################################################################################
+# Form dedicato al filtraggio delle transazioni:
+# Lo vediamo nella fase di visualizzazione delle transazioni
+#####################################################################################
+class FiltroTransazioniForm(forms.Form):
+    CAMPI_CHOICES = [
+        ('nome', 'Nome'),
+        ('cognome', 'Cognome'),
+        ('iban', 'IBAN'),
+        ('importo', 'Importo'),
+        ('tipo', 'Tipo'),
+    ]
+    campo = forms.ChoiceField(choices=CAMPI_CHOICES, required=False, label='Filtra per')
+    valore = forms.CharField(required=False, label='Valore')

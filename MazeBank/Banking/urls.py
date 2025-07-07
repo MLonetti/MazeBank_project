@@ -19,4 +19,6 @@ urlpatterns = [
     path('conto_corrente/<pk>', DettaglioContoCorrente.as_view(), name='conto_corrente'),
     path('bonifici/', make_bonifico, name='bonifici'),
     path('bonifico_esito/', bonifico_esito, name='bonifico_esito'),
+    path('estratto_conto/', estratto_conto.as_view(), name='transazioni'),
+    path('ajax_filtra_transazioni/', ajax_filtra_transazioni, name='ajax_filtra_transazioni'),
 ]
