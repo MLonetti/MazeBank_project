@@ -29,50 +29,13 @@
                             </tr>
                         </thead>
                         <tbody id="transazioni-tbody">
-                            {% for t in transazioni %}
-                                {% if t.conto_sorgente == user.conto_corrente %}
-                                    <tr class="transazione-row transazione-uscita"
-                                        data-tipo="{{ t.get_tipo_display }}"
-                                        data-importo="-{{ t.importo }}"
-                                        data-data="{{ t.data|date:'d/m/Y H:i' }}"
-                                        data-causale="{{ t.causale|default_if_none:'' }}"
-                                        data-controparte="{{ t.conto_destinazione.utente.get_full_name|default_if_none:'-' }}"
-                                        data-iban="{{ t.conto_destinazione.iban|default_if_none:'-' }}">
-                                        <td>{{ t.data|date:"d/m/Y H:i" }}</td>
-                                        <td>{{ t.get_tipo_display }}</td>
-                                        <td>
-                                            {% if t.tipo == 'bonifico' %}
-                                                Bonifico inviato a {{ t.conto_destinazione.utente.get_full_name }} ({{ t.conto_destinazione.iban }})
-                                            {% elif t.tipo == 'invio_soldi_amico' %}
-                                                Soldi inviati a {{ t.conto_destinazione.utente.get_full_name }}
-                                            {% else %}
-                                                Transazione
-                                            {% endif %}
-                                        </td>
-                                        <td class="importo-uscita">-{{ t.importo }} €</td>
-                                    </tr>
-                                {% elif t.conto_destinazione == user.conto_corrente %}
-                                    <tr class="transazione-row transazione-entrata"
-                                        data-tipo="{{ t.get_tipo_display }}"
-                                        data-importo="+{{ t.importo }}"
-                                        data-data="{{ t.data|date:'d/m/Y H:i' }}"
-                                        data-causale="{{ t.causale|default_if_none:'' }}"
-                                        data-controparte="{{ t.conto_sorgente.utente.get_full_name|default_if_none:'-' }}"
-                                        data-iban="{{ t.conto_sorgente.iban|default_if_none:'-' }}">
-                                        <td>{{ t.data|date:"d/m/Y H:i" }}</td>
-                                        <td>{{ t.get_tipo_display }}</td>
-                                        <td>
-                                            {% if t.tipo == 'bonifico' %}
-                                                Bonifico ricevuto da {{ t.conto_sorgente.utente.get_full_name }} ({{ t.conto_sorgente.iban }})
-                                            {% elif t.tipo == 'invio_soldi_amico' %}
-                                                Soldi ricevuti da {{ t.conto_sorgente.utente.get_full_name }}
-                                            {% else %}
-                                                Transazione
-                                            {% endif %}
-                                        </td>
-                                        <td class="importo-entrata">+{{ t.importo }} €</td>
-                                    </tr>
-                                {% endif %}
+                            {% for t in transazioni_data %}
+                                <tr class="transazione-row">
+                                    <td>{{ t.data }}</td>
+                                    <td>{{ t.tipo }}</td>
+                                    <td>{{ t.descrizione }}</td>
+                                    <td class="{{ t.importo_class }}">{{ t.importo }}</td>
+                                </tr>
                             {% empty %}
                                 <tr>
                                     <td colspan="4" class="text-center">Nessuna transazione trovata.</td>
@@ -123,7 +86,7 @@ function aggiornaTabella(transazioni) {
             <td>${t.descrizione}</td>
             <td class="${t.importo_class}">${t.importo}</td>
         `;
-        // Aggiungi qui l'evento click per la modale
+        // Evento click per aprire il modale
         tr.addEventListener('click', function() {
             document.getElementById('modal-tipo').textContent = t.tipo;
             document.getElementById('modal-data').textContent = t.data;
@@ -170,6 +133,20 @@ document.addEventListener('DOMContentLoaded', function() {
     var valore = document.getElementById('id_valore');
     if (campo) campo.className += ' form-control mr-2 filtro-select filtro-select-small';
     if (valore) valore.className += ' form-control mr-2 filtro-input';
+
+    // Aggiungi evento click alle righe già presenti
+    document.querySelectorAll('.transazione-row').forEach(function(row) {
+        row.addEventListener('click', function() {
+            // Recupera i dati dalle celle
+            document.getElementById('modal-tipo').textContent = row.children[1].textContent;
+            document.getElementById('modal-data').textContent = row.children[0].textContent;
+            document.getElementById('modal-importo').textContent = row.children[3].textContent;
+            document.getElementById('modal-causale').textContent = '-';
+            document.getElementById('modal-controparte').textContent = '-';
+            document.getElementById('modal-iban').textContent = '-';
+            document.getElementById('transazioneModal').style.display = 'flex';
+        });
+    });
 });
 </script>
 {% endblock %}

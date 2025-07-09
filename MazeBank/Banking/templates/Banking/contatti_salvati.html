@@ -1,0 +1,139 @@
+{# filepath: MazeBank/Banking/templates/Banking/contatti_salvati.html #}
+{% extends "home.html" %}
+{% load static %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/Banking/contatti_salvati.css' %}">
+{% endblock %}
+{% block title %}I tuoi contatti salvati{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
+            <div class="card shadow contatti-card p-4">
+                <h2 class="mb-4 font-weight-bold text-mazebank-red">I tuoi contatti salvati</h2>
+                <div class="mb-3 text-right">
+                    <a href="{% url 'Banking:add_contact' %}" class="btn btn-link font-weight-bold text-mazebank-red">
+                        Vuoi aggiungere un contatto?
+                    </a>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Cellulare</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in contatti %}
+                            <tr>
+                                <td>{{ c.nome }}</td>
+                                <td>{{ c.utente_salvato.email }}</td>
+                                <td>{{ c.utente_salvato.cellulare }}</td>
+                                <td>
+                                    <button class="btn-invia-rosso"
+                                            onclick="apriModaleInvio('{{ c.pk }}', '{{ c.nome|escapejs }}')">
+                                        Invia soldi
+                                    </button>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">Nessun contatto salvato.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modale invio soldi -->
+<div class="modal fade" id="modalInviaSoldi" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="form-invia-soldi" onsubmit="return inviaSoldiAjax(event)">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">Invia soldi a <span id="modal-nome-contatto"></span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi" onclick="chiudiModale()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="modal-contatto-id" name="contatto_id">
+          <div class="form-group">
+            <label for="modal-importo">Importo (€)</label>
+            <input type="number" min="1" step="0.01" class="form-control" id="modal-importo" name="importo" required>
+          </div>
+          <div id="modal-error" class="text-danger mb-2" style="display:none;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="chiudiModale()">Annulla</button>
+          <button type="submit" class="btn btn-success">Invia</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Toast di successo -->
+<div id="toast-success" class="toast-success" style="display:none;">
+    <span id="toast-success-msg"></span>
+</div>
+
+<script>
+function apriModaleInvio(contattoId, nomeContatto) {
+    document.getElementById('modal-contatto-id').value = contattoId;
+    document.getElementById('modal-nome-contatto').textContent = nomeContatto;
+    document.getElementById('modal-importo').value = '';
+    document.getElementById('modal-error').style.display = 'none';
+    document.getElementById('modal-error').textContent = '';
+    
+    $('#modalInviaSoldi').modal('show');
+}
+function chiudiModale() {
+    $('#modalInviaSoldi').modal('hide');
+}
+
+function inviaSoldiAjax(event) {
+    event.preventDefault();
+    const contattoId = document.getElementById('modal-contatto-id').value;
+    const importo = document.getElementById('modal-importo').value;
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    fetch("{% url 'Banking:ajax_invia_soldi_amico' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken,
+        },
+        body: JSON.stringify({ contatto_id: contattoId, importo: importo })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            chiudiModale();
+            mostraToastSuccess("Denaro inviato correttamente!");
+        } else {
+            document.getElementById('modal-error').textContent = data.error || "Errore sconosciuto";
+            document.getElementById('modal-error').style.display = 'block';
+        }
+    });
+    return false;
+}
+
+function mostraToastSuccess(msg) {
+    const toast = document.getElementById('toast-success');
+    document.getElementById('toast-success-msg').textContent = msg;
+    toast.style.display = 'block';
+    setTimeout(() => {
+        toast.style.display = 'none';
+        window.location.reload();
+    }, 2000);
+}
+</script>
+
+{% endblock %}

@@ -67,3 +67,15 @@ class FiltroTransazioniForm(forms.Form):
     ]
     campo = forms.ChoiceField(choices=CAMPI_CHOICES, required=False, label='Filtra per')
     valore = forms.CharField(required=False, label='Valore')
+
+#####################################################################################
+# Form per aggiungere un contatto salvato:
+# Vediamo numero di telefono e nome
+#####################################################################################
+class ContattoSalvatoForm(forms.ModelForm):
+    class Meta:
+        model = User  # User è il modello che contiene i contatti salvati
+        fields = ['nome', 'telefono']  # nickname e numero di telefono
+
+    telefono = forms.CharField(label="Numero di telefono")
+    nome = forms.CharField(label="nome in rubrica")

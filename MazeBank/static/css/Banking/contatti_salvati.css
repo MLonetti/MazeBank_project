@@ -1,0 +1,59 @@
+.contatti-card {
+    border-radius: 1.5em;
+    background: #fff;
+    box-shadow: 0 0 40px 0 rgba(0,0,0,0.10);
+    margin-bottom: 2em;
+    font-size: 1.25rem;
+    max-width: 1800px;   /* molto più larga */
+    min-width: 900px;    /* più larga anche come minimo */
+    width: 100%;
+}
+
+.text-mazebank-red {
+    color: #b02a37;
+}
+
+.table th, .table td {
+    font-size: 1.15em;
+    vertical-align: middle;
+}
+
+.btn-invia-rosso,
+.btn-invia-rosso:active,
+.btn-invia-rosso:visited {
+    background-color: #b02a37 !important;
+    color: #fff !important;
+    border: none !important;
+    font-weight: bold;
+    font-size: 0.80em;      /* più piccolo */
+    padding: 0.25em 0.8em;  /* più compatto */
+    border-radius: 0.5em;
+    transition: background 0.2s;
+}
+
+.btn-invia-rosso:hover, .btn-invia-rosso:focus {
+    background-color: #970505 !important;
+    color: #fff !important;
+}
+
+.toast-success {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background: #28a745;
+    color: #fff;
+    padding: 1.2em 2em;
+    border-radius: 1em;
+    font-size: 1.2em;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    z-index: 9999;
+    opacity: 0.95;
+    display: none;
+    animation: fadeInOut 2s;
+}
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 0.95; }
+    90% { opacity: 0.95; }
+    100% { opacity: 0; }
+}

@@ -1,5 +1,6 @@
-from Banking.models import User, ContoCorrente, Transazione
+from Banking.models import User, ContoCorrente, Transazione, ContattoSalvato
 from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_GET
 from django.http import JsonResponse
@@ -7,8 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 import json
-from Banking.forms import BonificoForm, FiltroTransazioniForm
+from Banking.forms import BonificoForm, FiltroTransazioniForm, ContattoSalvatoForm
 from django.db import models
+from decimal import Decimal
 
 ######################################################################################
 # VIEW CHE GESTISCE LA VISUALIZZAZIONE DEL PROFILO UTENTE
@@ -205,11 +207,44 @@ class estratto_conto(LoginRequiredMixin, ListView):
             models.Q(conto_sorgente=conto_utente) | models.Q(conto_destinazione=conto_utente)
         ).order_by('-data')
 
-    # passiamo anche come ctx il form per il filtraggio delle transazioni
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        from Banking.forms import FiltroTransazioniForm
         context['filtro_form'] = FiltroTransazioniForm()
+        conto_utente = self.request.user.conto_corrente
+        transazioni = context['transazioni']
+
+        data = []
+        for t in transazioni:
+            is_uscita = t.conto_sorgente == conto_utente
+            controparte = t.conto_destinazione if is_uscita else t.conto_sorgente
+
+            nome_rubrica = None
+            if t.tipo == 'invio_soldi_amico':
+                contatto = ContattoSalvato.objects.filter(
+                    proprietario=self.request.user, utente_salvato=controparte.utente
+                ).first()
+                if contatto and contatto.nome:
+                    nome_rubrica = contatto.nome
+                else:
+                    nome_rubrica = controparte.utente.cellulare
+
+            descrizione = (
+                f"Bonifico inviato a {controparte.utente.get_full_name()} ({controparte.iban})" if is_uscita and t.tipo == 'bonifico'
+                else f"Bonifico ricevuto da {controparte.utente.get_full_name()} ({controparte.iban})" if not is_uscita and t.tipo == 'bonifico'
+                else f"Soldi inviati a {nome_rubrica}" if is_uscita and t.tipo == 'invio_soldi_amico'
+                else f"Soldi ricevuti da {nome_rubrica}" if not is_uscita and t.tipo == 'invio_soldi_amico'
+                else "Transazione"
+            )
+
+            data.append({
+                'data': t.data.strftime("%d/%m/%Y %H:%M"),
+                'tipo': t.get_tipo_display(),
+                'descrizione': descrizione,
+                'importo': f"{'-' if is_uscita else '+'}{t.importo} €",
+                'importo_class': "importo-uscita" if is_uscita else "importo-entrata",
+            })
+
+        context['transazioni_data'] = data
         return context
     
 
@@ -259,17 +294,126 @@ def ajax_filtra_transazioni(request):
     for t in transazioni.order_by('-data'):
         is_uscita = t.conto_sorgente == conto_utente
         controparte = t.conto_destinazione if is_uscita else t.conto_sorgente
+
+        # Logica nome rubrica o cellulare
+        nome_rubrica = None
+        if t.tipo == 'invio_soldi_amico':
+            contatto = ContattoSalvato.objects.filter(
+                proprietario=request.user, utente_salvato=controparte.utente
+            ).first()
+            if contatto and contatto.nome:
+                nome_rubrica = contatto.nome
+            else:
+                nome_rubrica = controparte.utente.cellulare
+
         data.append({
             'data': t.data.strftime("%d/%m/%Y %H:%M"),
             'tipo': t.get_tipo_display(),
             'descrizione': (
                 f"Bonifico inviato a {controparte.utente.get_full_name()} ({controparte.iban})" if is_uscita and t.tipo == 'bonifico'
                 else f"Bonifico ricevuto da {controparte.utente.get_full_name()} ({controparte.iban})" if not is_uscita and t.tipo == 'bonifico'
-                else f"Soldi inviati a {controparte.utente.get_full_name()}" if is_uscita and t.tipo == 'invio_soldi_amico'
-                else f"Soldi ricevuti da {controparte.utente.get_full_name()}" if not is_uscita and t.tipo == 'invio_soldi_amico'
+                else f"Soldi inviati a {nome_rubrica}" if is_uscita and t.tipo == 'invio_soldi_amico'
+                else f"Soldi ricevuti da {nome_rubrica}" if not is_uscita and t.tipo == 'invio_soldi_amico'
                 else "Transazione"
             ),
             'importo': f"{'-' if is_uscita else '+'}{t.importo} €",
             'importo_class': "importo-uscita" if is_uscita else "importo-entrata",
         })
     return JsonResponse({'transazioni': data})
+
+
+######################################################################################
+# VIEW CHE GESTISCE L'INVIO DI SOLDI TRA AMICI:
+#   PERMETTE DI VISUALIZZARE I CONTATTI SALVATI NELLA RUBRICA ED INVIARGLI I SOLDI
+######################################################################################
+
+class ListaContattiSalvati(LoginRequiredMixin, ListView):
+    model = ContattoSalvato
+    template_name = 'Banking/contatti_salvati.html'
+    context_object_name = 'contatti'
+
+    def get_queryset(self):
+        return ContattoSalvato.objects.filter(proprietario=self.request.user)
+
+######################################################################################
+# VIEW CHE GESTISCE L'AGGIUNTA DI UN CONTATTO SALVATO:
+#   PERMETTE DI AGGIUNGERE ALLA RUBRICA DELL'UTENTE LOGGATO UN NUOVO CONTATTO
+######################################################################################
+
+@login_required
+def add_contatto(request):
+    if request.method == "POST":
+        form = ContattoSalvatoForm(request.POST)
+        if form.is_valid():
+            telefono = form.cleaned_data['telefono'].strip().replace(' ', '')
+            if not telefono.startswith('+'):
+                telefono = '+39' + telefono.lstrip('0')
+            nome = form.cleaned_data['nome']
+            try:
+                utente_salvato = User.objects.get(cellulare=telefono)
+            except User.DoesNotExist:
+                form.add_error('telefono', "Nessun utente trovato con questo numero di telefono.")
+            else:
+                # NUOVO CONTROLLO: non puoi aggiungere te stesso
+                if utente_salvato == request.user:
+                    form.add_error('telefono', "Non puoi aggiungere te stesso come contatto.")
+                elif ContattoSalvato.objects.filter(proprietario=request.user, utente_salvato=utente_salvato).exists():
+                    form.add_error('telefono', "Hai già salvato questo contatto.")
+                else:
+                    ContattoSalvato.objects.create(
+                        proprietario=request.user,
+                        utente_salvato=utente_salvato,
+                        nome=nome
+                    )
+                    return redirect('Banking:contatti_salvati')
+    else:
+        form = ContattoSalvatoForm()
+    return render(request, "Banking/add_contact.html", {"form": form})
+
+#######################################################################################
+# VIEW AJAX PER INVIARE SOLDI A UN AMICO:
+#   RICEVE L'ID DEL CONTATTO E L'IMPORTO DA INVIARE
+#   ESEGUIRÀ IL TRASFERIMENTO TRA I CONTI CORRENTE
+#   E RESTITUISCE UN JSON CON L'ESITO DELL'OPERAZIONE
+#######################################################################################
+@login_required
+@require_POST
+def ajax_invia_soldi_amico(request):
+    try:
+        data = json.loads(request.body)
+        contatto_id = int(data.get('contatto_id'))
+        importo = Decimal(str(data.get('importo')))
+    except Exception:
+        return JsonResponse({'success': False, 'error': 'Dati non validi.'})
+
+    if importo <= 0:
+        return JsonResponse({'success': False, 'error': 'Importo non valido.'})
+
+    try:
+        contatto = ContattoSalvato.objects.get(pk=contatto_id, proprietario=request.user)
+        conto_mitt = request.user.conto_corrente
+        conto_dest = contatto.utente_salvato.conto_corrente
+    except ContattoSalvato.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Contatto non trovato.'})
+
+    if conto_mitt.saldo < importo:
+        return JsonResponse({'success': False, 'error': 'Saldo insufficiente.'})
+
+    if conto_dest.pk == conto_mitt.pk:
+        return JsonResponse({'success': False, 'error': 'Non puoi inviare soldi a te stesso.'})
+
+    # Esegui trasferimento
+    conto_mitt.saldo -= importo
+    conto_dest.saldo += importo
+    conto_mitt.save()
+    conto_dest.save()
+    # Crea la transazione
+    Transazione.objects.create(
+        tipo='invio_soldi_amico',
+        conto_sorgente=conto_mitt,
+        conto_destinazione=conto_dest,
+        importo=importo,
+        causale='Invio soldi ad amico'
+    )
+    return JsonResponse({'success': True})
+

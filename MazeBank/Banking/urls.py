@@ -21,4 +21,7 @@ urlpatterns = [
     path('bonifico_esito/', bonifico_esito, name='bonifico_esito'),
     path('estratto_conto/', estratto_conto.as_view(), name='transazioni'),
     path('ajax_filtra_transazioni/', ajax_filtra_transazioni, name='ajax_filtra_transazioni'),
+    path('contatti_salvati/', ListaContattiSalvati.as_view(), name='contatti_salvati'),
+    path('aggiungi_contatto/', add_contatto, name='add_contact'),
+    path('ajax_invia_soldi_amico/', ajax_invia_soldi_amico, name='ajax_invia_soldi_amico'),
 ]
