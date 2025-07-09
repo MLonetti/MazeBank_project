@@ -30,17 +30,25 @@
                         </thead>
                         <tbody id="transazioni-tbody">
                             {% for t in transazioni_data %}
-                                <tr class="transazione-row">
-                                    <td>{{ t.data }}</td>
-                                    <td>{{ t.tipo }}</td>
-                                    <td>{{ t.descrizione }}</td>
-                                    <td class="{{ t.importo_class }}">{{ t.importo }}</td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="4" class="text-center">Nessuna transazione trovata.</td>
-                                </tr>
-                            {% endfor %}
+    <tr class="transazione-row"
+        data-tipo="{{ t.tipo|escapejs }}"
+        data-tipo_tecnico="{{ t.tipo_tecnico|escapejs }}"
+        data-data="{{ t.data|escapejs }}"
+        data-importo="{{ t.importo }}"
+        data-causale="{{ t.causale|escapejs }}"
+        data-controparte="{{ t.controparte|escapejs }}"
+        data-iban="{{ t.iban|escapejs }}"
+    >
+        <td>{{ t.data }}</td>
+        <td>{{ t.tipo }}</td>
+        <td>{{ t.descrizione }}</td>
+        <td class="{{ t.importo_class }}">{{ t.importo }}</td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="4" class="text-center">Nessuna transazione trovata.</td>
+    </tr>
+{% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -54,11 +62,18 @@
     <div class="estratto-modal-content">
         <span class="estratto-modal-close" onclick="closeModal()">&times;</span>
         <h4 id="modal-tipo"></h4>
-        <p><strong>Data:</strong> <span id="modal-data"></span></p>
-        <p><strong>Importo:</strong> <span id="modal-importo"></span></p>
-        <p><strong>Causale:</strong> <span id="modal-causale"></span></p>
-        <p><strong>Controparte:</strong> <span id="modal-controparte"></span></p>
-        <p><strong>IBAN:</strong> <span id="modal-iban"></span></p>
+        <div id="modal-bonifico" style="display:none;">
+            <p><strong>Data:</strong> <span id="modal-data"></span></p>
+            <p><strong>Importo:</strong> <span id="modal-importo"></span></p>
+            <p><strong>Causale:</strong> <span id="modal-causale"></span></p>
+            <p><strong>Controparte:</strong> <span id="modal-controparte"></span></p>
+            <p><strong>IBAN:</strong> <span id="modal-iban"></span></p>
+        </div>
+        <div id="modal-amico" style="display:none;">
+            <p><strong>Data:</strong> <span id="modal-data-amico"></span></p>
+            <p><strong>Importo:</strong> <span id="modal-importo-amico"></span></p>
+            <p><strong>Contatto:</strong> <span id="modal-controparte-amico"></span></p>
+        </div>
     </div>
 </div>
 
@@ -88,13 +103,7 @@ function aggiornaTabella(transazioni) {
         `;
         // Evento click per aprire il modale
         tr.addEventListener('click', function() {
-            document.getElementById('modal-tipo').textContent = t.tipo;
-            document.getElementById('modal-data').textContent = t.data;
-            document.getElementById('modal-importo').textContent = t.importo;
-            document.getElementById('modal-causale').textContent = t.causale || '-';
-            document.getElementById('modal-controparte').textContent = t.controparte || '-';
-            document.getElementById('modal-iban').textContent = t.iban || '-';
-            document.getElementById('transazioneModal').style.display = 'flex';
+            openModalTransazione(t);
         });
         tbody.appendChild(tr);
     });
@@ -112,15 +121,41 @@ function filtraTransazioni() {
 }
 
 // --- MODALE DETTAGLIO ---
+function openModalTransazione(t) {
+    document.getElementById('modal-tipo').textContent = t.tipo;
+    // Nascondi tutto
+    document.getElementById('modal-bonifico').style.display = 'none';
+    document.getElementById('modal-amico').style.display = 'none';
+
+    if (t.tipo_tecnico === 'bonifico') {
+        document.getElementById('modal-bonifico').style.display = 'block';
+        document.getElementById('modal-data').textContent = t.data;
+        document.getElementById('modal-importo').textContent = t.importo;
+        document.getElementById('modal-causale').textContent = t.causale || '-';
+        document.getElementById('modal-controparte').textContent = t.controparte || '-';
+        document.getElementById('modal-iban').textContent = t.iban || '-';
+    } else if (t.tipo_tecnico === 'invio_soldi_amico') {
+        document.getElementById('modal-amico').style.display = 'block';
+        document.getElementById('modal-data-amico').textContent = t.data;
+        document.getElementById('modal-importo-amico').textContent = t.importo;
+        document.getElementById('modal-controparte-amico').textContent = t.controparte || '-';
+    }
+    document.getElementById('transazioneModal').style.display = 'flex';
+}
+
 document.querySelectorAll('.transazione-row').forEach(function(row) {
     row.addEventListener('click', function() {
-        document.getElementById('modal-tipo').textContent = this.dataset.tipo;
-        document.getElementById('modal-data').textContent = this.dataset.data;
-        document.getElementById('modal-importo').textContent = this.dataset.importo;
-        document.getElementById('modal-causale').textContent = this.dataset.causale || '-';
-        document.getElementById('modal-controparte').textContent = this.dataset.controparte || '-';
-        document.getElementById('modal-iban').textContent = this.dataset.iban || '-';
-        document.getElementById('transazioneModal').style.display = 'flex';
+        // Ricostruisci l'oggetto t come fa aggiornaTabella
+        const t = {
+            tipo: this.dataset.tipo,
+            tipo_tecnico: this.dataset.tipo_tecnico,
+            data: this.dataset.data,
+            importo: this.dataset.importo,
+            causale: this.dataset.causale,
+            controparte: this.dataset.controparte,
+            iban: this.dataset.iban
+        };
+        openModalTransazione(t);
     });
 });
 function closeModal() {
@@ -134,19 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (campo) campo.className += ' form-control mr-2 filtro-select filtro-select-small';
     if (valore) valore.className += ' form-control mr-2 filtro-input';
 
-    // Aggiungi evento click alle righe già presenti
-    document.querySelectorAll('.transazione-row').forEach(function(row) {
-        row.addEventListener('click', function() {
-            // Recupera i dati dalle celle
-            document.getElementById('modal-tipo').textContent = row.children[1].textContent;
-            document.getElementById('modal-data').textContent = row.children[0].textContent;
-            document.getElementById('modal-importo').textContent = row.children[3].textContent;
-            document.getElementById('modal-causale').textContent = '-';
-            document.getElementById('modal-controparte').textContent = '-';
-            document.getElementById('modal-iban').textContent = '-';
-            document.getElementById('transazioneModal').style.display = 'flex';
-        });
-    });
 });
 </script>
 {% endblock %}

@@ -239,9 +239,19 @@ class estratto_conto(LoginRequiredMixin, ListView):
             data.append({
                 'data': t.data.strftime("%d/%m/%Y %H:%M"),
                 'tipo': t.get_tipo_display(),
-                'descrizione': descrizione,
+                'tipo_tecnico': t.tipo,
+                'descrizione': (
+                    f"Bonifico inviato a {controparte.utente.get_full_name()} ({controparte.iban})" if is_uscita and t.tipo == 'bonifico'
+                    else f"Bonifico ricevuto da {controparte.utente.get_full_name()} ({controparte.iban})" if not is_uscita and t.tipo == 'bonifico'
+                    else f"Soldi inviati a {nome_rubrica}" if is_uscita and t.tipo == 'invio_soldi_amico'
+                    else f"Soldi ricevuti da {nome_rubrica}" if not is_uscita and t.tipo == 'invio_soldi_amico'
+                    else "Transazione"
+                ),
                 'importo': f"{'-' if is_uscita else '+'}{t.importo} €",
                 'importo_class': "importo-uscita" if is_uscita else "importo-entrata",
+                'causale': getattr(t, 'causale', ''),
+                'controparte': nome_rubrica or controparte.utente.get_full_name() or controparte.utente.cellulare,
+                'iban': getattr(controparte, 'iban', ''),
             })
 
         context['transazioni_data'] = data
@@ -309,6 +319,7 @@ def ajax_filtra_transazioni(request):
         data.append({
             'data': t.data.strftime("%d/%m/%Y %H:%M"),
             'tipo': t.get_tipo_display(),
+            'tipo_tecnico': t.tipo,
             'descrizione': (
                 f"Bonifico inviato a {controparte.utente.get_full_name()} ({controparte.iban})" if is_uscita and t.tipo == 'bonifico'
                 else f"Bonifico ricevuto da {controparte.utente.get_full_name()} ({controparte.iban})" if not is_uscita and t.tipo == 'bonifico'
@@ -318,6 +329,9 @@ def ajax_filtra_transazioni(request):
             ),
             'importo': f"{'-' if is_uscita else '+'}{t.importo} €",
             'importo_class': "importo-uscita" if is_uscita else "importo-entrata",
+            'causale': getattr(t, 'causale', ''),
+            'controparte': nome_rubrica or controparte.utente.get_full_name() or controparte.utente.cellulare,
+            'iban': getattr(controparte, 'iban', ''),
         })
     return JsonResponse({'transazioni': data})
 
