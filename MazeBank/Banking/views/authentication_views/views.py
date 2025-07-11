@@ -6,6 +6,7 @@ from Banking.forms import NewLoginAuthenticationForm
 from django.shortcuts import redirect
 from Banking.models import User, ContoCorrente
 from Banking.utils import generate_iban
+from django.contrib.auth.models import Group
 
 
 class UserCreateView(CreateView):
@@ -24,6 +25,13 @@ class UserCreateView(CreateView):
         if request.user.is_authenticated:
             return redirect('warning')
         return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # Aggiungi l'utente al gruppo "clienti"
+        clienti_group, created = Group.objects.get_or_create(name='clienti')
+        self.object.groups.add(clienti_group)
+        return response
 
     def get_success_url(self):
         return reverse('Banking:create_conto_corrente') + f'?user_id={self.object.pk}'
@@ -51,10 +59,24 @@ def create_conto_corrente(request):
 
     # Crea il conto solo se non esiste già
     if not ContoCorrente.objects.filter(utente=user).exists():
+        # Trova tutti i consulenti
+        from django.contrib.auth.models import Group
+        consulenti_group = Group.objects.get(name='consulenti')
+        consulenti = User.objects.filter(groups=consulenti_group)
+
+        # Trova il consulente con meno clienti associati
+        consulente_assegnato = None
+        if consulenti.exists():
+            consulente_assegnato = min(
+                consulenti,
+                key=lambda c: c.clienti_associati.count()
+            )
+
         ContoCorrente.objects.create(
             utente=user,
             saldo=50.00,
-            iban=generate_iban()
+            iban=generate_iban(),
+            consulente=consulente_assegnato
         )
         url = reverse('Banking:login') + '?registration=succesfull'
         return redirect(url)

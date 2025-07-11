@@ -45,6 +45,14 @@ class ContoCorrente(models.Model):
     )
     iban = models.CharField(max_length=34, unique=True)
     saldo = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    consulente = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='clienti_associati',
+        limit_choices_to={'groups__name': 'consulenti'}
+    )
 
     def __str__(self):
         return f"Conto di {self.utente.email} - IBAN: {self.iban}"
