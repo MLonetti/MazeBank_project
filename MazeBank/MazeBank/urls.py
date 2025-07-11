@@ -27,8 +27,11 @@ urlpatterns = [
     path('services/', services, name='services'),
     path('warning/', warning, name='warning'),
     
+    # URL per le pagine gestite dalla logica dell'app Banking
     path('banking/', include('Banking.urls')),
 
+    # URL per le pagine gestite dalla logica per admin e consulenti
+    path('consulent_administer/', include('Consulenti-Admin.urls')),
 ]
 
 if settings.DEBUG:

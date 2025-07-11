@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from Banking.models import User, ContoCorrente
 from Banking.utils import generate_iban
 from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required
 
 
 class UserCreateView(CreateView):
@@ -82,3 +83,11 @@ def create_conto_corrente(request):
         return redirect(url)
     else:
         return redirect('warning')
+
+
+@login_required
+def post_login_redirect(request):
+    user = request.user
+    if user.is_superuser or user.groups.filter(name='consulenti').exists():
+        return redirect('Consulenti-Admin:homepage')  # nome url della homepage personalizzata
+    return redirect('/homepage/?login=ok')  # nome url della homepage classica

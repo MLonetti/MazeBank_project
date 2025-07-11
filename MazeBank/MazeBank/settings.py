@@ -136,4 +136,4 @@ MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'Banking.User'
 
-LOGIN_REDIRECT_URL = "/homepage/?login=ok" # Redirect URL dopo il login
+LOGIN_REDIRECT_URL = '/post-login/'# Redirect URL dopo il login

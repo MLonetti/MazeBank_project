@@ -1,7 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from Banking.views.authentication_views.views import *
 from Banking.views.account_views.views import *
 from django.contrib.auth import views as auth_views
+
 
 
 app_name = 'Banking'
@@ -12,6 +13,7 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('create_conto_corrente/', create_conto_corrente, name='create_conto_corrente'),
+    path('post-login/', post_login_redirect, name='post_login_redirect'),
 
     # URL account_views
     path('profilo/<pk>', DetailProfilo.as_view(), name='profilo'),
@@ -24,4 +26,5 @@ urlpatterns = [
     path('contatti_salvati/', ListaContattiSalvati.as_view(), name='contatti_salvati'),
     path('aggiungi_contatto/', add_contatto, name='add_contact'),
     path('ajax_invia_soldi_amico/', ajax_invia_soldi_amico, name='ajax_invia_soldi_amico'),
+    
 ]
