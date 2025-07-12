@@ -1,0 +1,64 @@
+/* Stili per la pagina clienti seguiti dal consulente */
+
+.mazebank-logo {
+    width: 90px;
+    transition: transform 0.3s;
+}
+.mazebank-logo:hover {
+    transform: scale(1.08);
+}
+.dashboard-icon {
+    font-size: 1.1rem;
+    margin-right: 7px;
+}
+
+.conto-card {
+    border-radius: 1.2rem;
+    border: none;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 4px 18px 0 rgba(176,42,55,0.10), 0 1.5px 6px 0 rgba(0,0,0,0.04);
+    background: #fff;
+    transition: box-shadow 0.2s;
+}
+.conto-card:hover {
+    box-shadow: 0 8px 32px 0 rgba(176,42,55,0.16), 0 2px 8px 0 rgba(0,0,0,0.07);
+}
+
+.profile-img img {
+    border: 2.5px solid #b02a37;
+    background: #f8f9fa;
+}
+
+/* Immagine profilo cliente nei box conti seguiti */
+.clienti-img-profile {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.text-mazebank-red {
+    color: #b02a37 !important;
+}
+
+.card-body {
+    padding: 2.1rem 1.7rem 1.5rem 1.7rem;
+}
+
+@media (max-width: 991px) {
+    .card-body {
+        padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    }
+    .mazebank-logo {
+        width: 70px;
+    }
+}
+
+@media (max-width: 600px) {
+    .conto-card {
+        margin-bottom: 1.7rem;
+    }
+    .clienti-img-profile {
+        width: 45px !important;
+        height: 45px !important;
+    }
+}

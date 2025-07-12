@@ -15,7 +15,7 @@ from decimal import Decimal
 ######################################################################################
 # VIEW CHE GESTISCE LA VISUALIZZAZIONE DEL PROFILO UTENTE
 ######################################################################################
-class DetailProfilo(DetailView):
+class DetailProfilo(LoginRequiredMixin ,DetailView):
     model = User
     template_name = 'Banking/profilo.html'
     context_object_name = 'utente'

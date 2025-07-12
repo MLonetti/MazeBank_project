@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Clienti Seguiti - MazeBank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ConsulentiAdmin/clienti_seguiti.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-9">
+                <div class="mb-4 text-center">
+                    <a href="{% url 'ConsulentiAdmin:homepage' %}">
+                        <img src="{% static 'imgs/logo2.jpg' %}" alt="MazeBank" class="mazebank-logo mb-3">
+                    </a>
+                    <h2 class="fw-bold text-mazebank-red mb-2">
+                        <i class="fas fa-users dashboard-icon"></i> Clienti Seguiti
+                    </h2>
+                    <p class="lead text-muted">Elenco dei clienti e conti correnti che stai seguendo come consulente.</p>
+                </div>
+                {% if conti %}
+                    <div class="row g-4">
+                        {% for conto in conti %}
+                        <div class="col-md-6">
+                            <div class="card shadow-sm conto-card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="profile-img me-3">
+                                            {% if conto.utente.immagine_profilo %}
+                                                <img src="{{ conto.utente.immagine_profilo.url }}" alt="Immagine cliente" class="rounded-circle clienti-img-profile">
+                                            {% else %}
+                                                <img src="{% static 'imgs/default_profile.png' %}" alt="Nessuna immagine" class="rounded-circle clienti-img-profile">
+                                            {% endif %}
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-1 fw-bold text-mazebank-red">{{ conto.utente.first_name }} {{ conto.utente.last_name }}</h5>
+                                            <p class="mb-0 text-muted"><i class="fas fa-envelope"></i> {{ conto.utente.email }}</p>
+                                            <p class="mb-0 text-muted"><i class="fas fa-phone"></i> {{ conto.utente.cellulare|default:'-' }}</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mb-2">
+                                        <div class="col-6">
+                                            <span class="text-muted">IBAN</span>
+                                            <div class="fw-semibold">{{ conto.iban }}</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="text-muted">Saldo</span>
+                                            <div class="fw-semibold">€ {{ conto.saldo|floatformat:2 }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-6">
+                                            <span class="text-muted">Data apertura</span>
+                                            <div>{{ conto.data_apertura|date:'d/m/Y' }}</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="text-muted">Stato</span>
+                                            <div>{{ conto.get_stato_display|default:'-' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info text-center mt-4">
+                        <i class="fas fa-info-circle"></i> Non stai seguendo ancora nessun cliente.
+                    </div>
+                {% endif %}
+                <div class="mt-5 text-center">
+                    <a href="{% url 'ConsulentiAdmin:homepage' %}" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-arrow-left"></i> Torna alla Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

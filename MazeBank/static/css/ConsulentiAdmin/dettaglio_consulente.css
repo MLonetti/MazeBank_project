@@ -1,0 +1,98 @@
+/* Stili per la pagina dettaglio consulente */
+
+.card {
+    margin-top: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(176,42,55,0.10), 0 1.5px 6px 0 rgba(0,0,0,0.05);
+    border: none;
+    background: #fff;
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-body {
+    padding: 2.5rem 2.2rem 2rem 2.2rem;
+}
+
+.mazebank-logo {
+    width: 100px;
+    transition: transform 0.3s ease;
+}
+
+.mazebank-logo:hover {
+    transform: scale(1.1);
+}
+
+.dashboard-icon {
+    font-size: 1.2rem;
+    margin-right: 8px;
+}
+
+
+/* Migliore formattazione per la tabella dei conti correnti seguiti */
+.table {
+    font-size: 1.12rem;
+    border-spacing: 0 0.7rem;
+    border-collapse: separate;
+    margin-bottom: 1.7rem;
+}
+
+.table th {
+    background: #f8f9fa;
+    color: #b02a37;
+    font-weight: 600;
+    padding-top: 1.1rem;
+    padding-bottom: 1.1rem;
+    letter-spacing: 0.03em;
+    border-bottom: 2.5px solid #b02a37;
+}
+
+.table td {
+    background: #fff;
+    padding-top: 1.05rem;
+    padding-bottom: 1.05rem;
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+    border-top: none;
+    border-bottom: 1.5px solid #f0f0f0;
+    vertical-align: middle;
+    transition: background 0.2s;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: #f9f6f6;
+}
+
+.table-hover tbody tr:hover > td {
+    background: #ffeaea;
+}
+
+.table th:first-child, .table td:first-child {
+    border-radius: 0.7rem 0 0 0.7rem;
+}
+.table th:last-child, .table td:last-child {
+    border-radius: 0 0.7rem 0.7rem 0;
+}
+
+.rounded-circle {
+    border: 2.5px solid #b02a37;
+}
+
+@media (max-width: 768px) {
+    .card {
+        max-width: 98vw;
+    }
+    .card-body {
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    }
+    .table {
+        font-size: 0.98rem;
+    }
+    .table th, .table td {
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+        padding-top: 0.7rem;
+        padding-bottom: 0.7rem;
+    }
+}

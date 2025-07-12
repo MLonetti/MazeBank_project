@@ -31,7 +31,7 @@
                         </p>
                         <div class="d-grid gap-3">
                             {% if user.is_superuser %}
-                                <a href="#" class="btn btn-mazebank btn-lg">
+                                <a href="{% url "ConsulentiAdmin:lista_consulenti" %}" class="btn btn-mazebank btn-lg">
                                     <i class="fas fa-users dashboard-icon"></i> Gestione Consulenti
                                 </a>
                                 <a href="{% url "ConsulentiAdmin:crea_consulente"%}" class="btn btn-outline-mazebank btn-lg">
@@ -41,14 +41,8 @@
                                     <i class="fas fa-chart-line dashboard-icon"></i> Report e Statistiche
                                 </a>
                             {% elif is_consulente %}
-                                <a href="#" class="btn btn-mazebank btn-lg">
+                                <a href="{% url 'ConsulentiAdmin:clienti_seguiti'%}" class="btn btn-mazebank btn-lg">
                                     <i class="fas fa-address-book dashboard-icon"></i> Gestione Clienti
-                                </a>
-                                <a href=href="#" class="btn btn-outline-mazebank btn-lg">
-                                    <i class="fas fa-calendar-alt dashboard-icon"></i> Appuntamenti
-                                </a>
-                                <a href=href="#" class="btn btn-outline-secondary btn-lg">
-                                    <i class="fas fa-file-alt dashboard-icon"></i> Report Personali
                                 </a>
                             {% endif %}
                         </div>

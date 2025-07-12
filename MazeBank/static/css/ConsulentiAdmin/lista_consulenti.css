@@ -1,0 +1,115 @@
+/* Stili per la lista dei consulenti */
+
+.card {
+    margin-top: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(176,42,55,0.10), 0 1.5px 6px 0 rgba(0,0,0,0.05);
+    border: none;
+    background: #fff;
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-body {
+    padding: 3rem 3rem 2.5rem 3rem;
+}
+
+.table-responsive {
+    display: flex;
+    justify-content: center;
+}
+
+.table {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+    background: #fff;
+    border-radius: 1rem;
+    overflow: hidden;
+    font-size: 1.08rem;
+}
+
+.table thead th {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.08rem;
+    color: #b02a37;
+    background: #f8f9fa;
+}
+
+.table tbody tr {
+    text-align: center;
+    vertical-align: middle;
+    transition: box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 2px 8px 0 rgba(176,42,55,0.04);
+}
+
+.table tbody tr.consulente-row {
+    cursor: pointer;
+    background: #fff;
+}
+
+.table tbody tr.consulente-row:hover {
+    background: #f8f9fa;
+    box-shadow: 0 4px 16px 0 rgba(176,42,55,0.10);
+}
+
+.table tbody tr td {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    font-size: 1.08rem;
+    vertical-align: middle;
+}
+
+.table tbody tr td img {
+    margin: 0 auto;
+    display: block;
+}
+
+.mazebank-logo {
+    width: 100px;
+    transition: transform 0.3s ease;
+}
+
+.mazebank-logo:hover {
+    transform: scale(1.1);
+}
+
+.dashboard-icon {
+    font-size: 1.2rem;
+    margin-right: 8px;
+}
+
+@media (max-width: 1200px) {
+    .card {
+        max-width: 98vw;
+    }
+    .card-body {
+        padding: 1.5rem 0.5rem 1.5rem 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .mazebank-logo {
+        width: 70px;
+    }
+    .card-body {
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    }
+    .table {
+        font-size: 0.98rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        max-width: 99vw;
+    }
+    .table {
+        max-width: 99vw;
+    }
+    .card-body {
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    }
+}
