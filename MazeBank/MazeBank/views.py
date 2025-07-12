@@ -1,12 +1,16 @@
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 def homepage(request):
     """
     View function for the home page of the site.
     """
+    if request.user.is_authenticated and (request.user.is_superuser or request.user.groups.filter(name='consulenti').exists()):
+        return redirect('ConsulentiAdmin:homepage')
+    
     return render(request, 'home.html')
+ 
 
 def warning(request):
     """

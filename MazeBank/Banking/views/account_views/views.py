@@ -11,11 +11,12 @@ import json
 from Banking.forms import BonificoForm, FiltroTransazioniForm, ContattoSalvatoForm
 from django.db import models
 from decimal import Decimal
+from Banking.utils import solo_clienti_required, SoloClientiRequiredMixin
 
 ######################################################################################
 # VIEW CHE GESTISCE LA VISUALIZZAZIONE DEL PROFILO UTENTE
 ######################################################################################
-class DetailProfilo(LoginRequiredMixin ,DetailView):
+class DetailProfilo(SoloClientiRequiredMixin, LoginRequiredMixin ,DetailView):
     model = User
     template_name = 'Banking/profilo.html'
     context_object_name = 'utente'
@@ -26,6 +27,7 @@ class DetailProfilo(LoginRequiredMixin ,DetailView):
 #   E  VIENE GESTITA LA MODIFICA DEI CAMPI DEL PROFILO UTENTE
 ######################################################################################
 @login_required
+@solo_clienti_required
 @csrf_exempt
 @require_POST
 def ajax_modifica_campo(request, pk):
@@ -82,7 +84,7 @@ def ajax_modifica_campo(request, pk):
 #   È UNA VIEW CHE MOSTRA LE INFORMAZIONI DEL CONTO CORRENTE DELL'UTENTE LOGGATO
 #######################################################################################
 
-class DettaglioContoCorrente(LoginRequiredMixin, DetailView):
+class DettaglioContoCorrente(SoloClientiRequiredMixin, LoginRequiredMixin, DetailView):
     model = ContoCorrente
     template_name = 'Banking/conto_corrente.html'
     context_object_name = 'conto_corrente'
@@ -99,6 +101,7 @@ class DettaglioContoCorrente(LoginRequiredMixin, DetailView):
 #   CHIEDE L'IBAN, NOME, COGNOME, IMPORTO E CAUSALE DEL BONIFICO
 #######################################################################################
 @login_required
+@solo_clienti_required
 def make_bonifico(request):
     errore = None  # Inizializza sempre la variabile!
     if request.method == "POST":
@@ -184,6 +187,9 @@ def make_bonifico(request):
 #######################################################################################
 
 def bonifico_esito(request):
+    # Questa view va protetta solo se serve, altrimenti lasciare libera per redirect post-bonifico
+    if request.user.is_superuser or request.user.groups.filter(name='consulenti').exists():
+        return redirect('warning')
     esito = request.session.pop('esito_bonifico', None) 
     if not esito:
         return redirect('Banking:bonifici')
@@ -196,7 +202,7 @@ def bonifico_esito(request):
 #   OVVIAMENTE SIA LE TRANSAZIONI IN USCITA CHE IN ENTRATA
 ######################################################################################
 
-class estratto_conto(LoginRequiredMixin, ListView):
+class estratto_conto(SoloClientiRequiredMixin, LoginRequiredMixin, ListView):
     model = Transazione
     template_name = 'Banking/estratto_conto.html'
     context_object_name = 'transazioni'
@@ -265,6 +271,7 @@ class estratto_conto(LoginRequiredMixin, ListView):
 ######################################################################################
 
 @login_required
+@solo_clienti_required
 @require_GET
 def ajax_filtra_transazioni(request):
     campo = request.GET.get('campo')
@@ -341,7 +348,7 @@ def ajax_filtra_transazioni(request):
 #   PERMETTE DI VISUALIZZARE I CONTATTI SALVATI NELLA RUBRICA ED INVIARGLI I SOLDI
 ######################################################################################
 
-class ListaContattiSalvati(LoginRequiredMixin, ListView):
+class ListaContattiSalvati(SoloClientiRequiredMixin, LoginRequiredMixin, ListView):
     model = ContattoSalvato
     template_name = 'Banking/contatti_salvati.html'
     context_object_name = 'contatti'
@@ -355,6 +362,7 @@ class ListaContattiSalvati(LoginRequiredMixin, ListView):
 ######################################################################################
 
 @login_required
+@solo_clienti_required
 def add_contatto(request):
     if request.method == "POST":
         form = ContattoSalvatoForm(request.POST)
@@ -391,6 +399,7 @@ def add_contatto(request):
 #   E RESTITUISCE UN JSON CON L'ESITO DELL'OPERAZIONE
 #######################################################################################
 @login_required
+@solo_clienti_required
 @require_POST
 def ajax_invia_soldi_amico(request):
     try:
