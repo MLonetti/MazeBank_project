@@ -1,0 +1,110 @@
+/* Stili aggiuntivi per la pagina di aggiunta consulente */
+
+.card {
+    margin-top: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(176,42,55,0.10), 0 1.5px 6px 0 rgba(0,0,0,0.05);
+    border: none;
+    background: #fff;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-body {
+    padding: 2.5rem 2.2rem 2rem 2.2rem;
+}
+
+form {
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+form .form-label {
+    color: #b02a37;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+form .form-control, form .form-select {
+    border-radius: 1.5rem;
+    border: 1.5px solid #b02a37;
+    padding: 1.1rem 1.5rem;
+    font-size: 1.15rem;
+    background: #f8f9fa;
+    transition: border-color 0.2s;
+    margin-bottom: 1.2rem;
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+form .form-control:focus, form .form-select:focus {
+    border-color: #e94e77;
+    box-shadow: 0 0 0 0.15rem rgba(233,78,119,0.15);
+    background: #fff;
+}
+
+form .invalid-feedback {
+    color: #c1121f;
+    font-size: 0.98rem;
+    margin-top: -0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.btn.btn-mazebank {
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, #b02a37 0%, #e94e77 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 2rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 0.75rem 2.5rem;
+    box-shadow: 0 2px 8px 0 rgba(176,42,55,0.10);
+    transition: background 0.2s, box-shadow 0.2s;
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn.btn-mazebank:hover {
+    background: linear-gradient(90deg, #8a1f2a 0%, #b02a37 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px 0 rgba(176,42,55,0.18);
+}
+
+.btn.btn-outline-secondary.btn-lg {
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.d-grid.gap-2.mt-4 {
+    gap: 1.2rem !important;
+}
+
+@media (max-width: 768px) {
+    .card {
+        max-width: 98vw;
+    }
+    .card-body {
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    }
+    form {
+        max-width: 100%;
+        padding: 0 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .mazebank-logo {
+        width: 70px;
+    }
+    .card-body {
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+    }
+}

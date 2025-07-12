@@ -1,0 +1,53 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiungi Consulente - MazeBank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ConsulentiAdmin/homepage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ConsulentiAdmin/aggiungi_consulente.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="card shadow-lg border-0 p-4">
+                    <div class="card-body">
+                        <a href="{% url 'ConsulentiAdmin:homepage' %}">
+                            <img src="{% static 'imgs/logo2.jpg' %}" alt="MazeBank" class="mazebank-logo mb-3">
+                        </a>
+                        <h2 class="mb-3 text-danger fw-bold text-center">
+                            <i class="fas fa-user-plus dashboard-icon"></i> Aggiungi Consulente
+                        </h2>
+                        <p class="lead mb-4 text-muted text-center">
+                            Compila il modulo per aggiungere un nuovo consulente MazeBank.
+                        </p>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-mazebank btn-lg">
+                                    <i class="fas fa-user-plus"></i> Crea Consulente
+                                </button>
+                                <a href="{% url 'ConsulentiAdmin:homepage' %}" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-arrow-left"></i> Annulla
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <footer class="text-center mt-4 text-muted small">
+                    <hr>
+                    &copy; {{ now|date:"Y" }} MazeBank S.p.A. &mdash; Area Riservata
+                    <br>
+                    <span class="badge bg-light text-dark mt-2">Versione 2.0</span>
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

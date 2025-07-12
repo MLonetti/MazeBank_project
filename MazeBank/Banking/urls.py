@@ -13,7 +13,6 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('create_conto_corrente/', create_conto_corrente, name='create_conto_corrente'),
-    path('post-login/', post_login_redirect, name='post_login_redirect'),
 
     # URL account_views
     path('profilo/<pk>', DetailProfilo.as_view(), name='profilo'),

@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - MazeBank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ConsulentiAdmin/homepage.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CSS ora separato in static/css/ConsulentiAdmin/homepage.css -->
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="card shadow-lg border-0 p-4">
+                    <div class="card-body text-center">
+                        <a href="{% url 'ConsulentiAdmin:homepage' %}">
+                            <img src="{% static 'imgs/logo2.jpg' %}" alt="MazeBank" class="mazebank-logo mb-3">
+                        </a>
+                        <h2 class="mb-3 text-danger fw-bold">
+                            {% if user.is_superuser %}
+                                Benvenuto, Admin
+                            {% elif is_consulente %}
+                                Benvenuto, Consulente {{ user.first_name|default:user.username }}
+                            {% endif %}
+                        </h2>
+                        <p class="lead mb-4 text-muted">
+                            Questa è la tua <strong>Dashboard</strong>. Usa i pulsanti sottostanti per navigare tra le funzionalità disponibili.
+                        </p>
+                        <div class="d-grid gap-3">
+                            {% if user.is_superuser %}
+                                <a href="#" class="btn btn-mazebank btn-lg">
+                                    <i class="fas fa-users dashboard-icon"></i> Gestione Consulenti
+                                </a>
+                                <a href="{% url "ConsulentiAdmin:crea_consulente"%}" class="btn btn-outline-mazebank btn-lg">
+                                    <i class="fas fa-user-plus dashboard-icon"></i> Aggiungi Consulente
+                                </a>
+                                <a href="#" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-chart-line dashboard-icon"></i> Report e Statistiche
+                                </a>
+                            {% elif is_consulente %}
+                                <a href="#" class="btn btn-mazebank btn-lg">
+                                    <i class="fas fa-address-book dashboard-icon"></i> Gestione Clienti
+                                </a>
+                                <a href=href="#" class="btn btn-outline-mazebank btn-lg">
+                                    <i class="fas fa-calendar-alt dashboard-icon"></i> Appuntamenti
+                                </a>
+                                <a href=href="#" class="btn btn-outline-secondary btn-lg">
+                                    <i class="fas fa-file-alt dashboard-icon"></i> Report Personali
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="logout-container mb-4">
+                    <form method="post" action="{% url 'Banking:logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-mazebank btn-lg px-5 py-3 logout-btn">
+                            <i class="fas fa-sign-out-alt dashboard-icon"></i> Esci dal profilo
+                        </button>
+                    </form>
+                </div>
+                <footer class="text-center mt-4 text-muted small">
+                    <hr>
+                    &copy; {{ now|date:"Y" }} MazeBank S.p.A. &mdash; Area Riservata
+                    <br>
+                    <span class="badge bg-light text-dark mt-2">Versione 2.0</span>
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

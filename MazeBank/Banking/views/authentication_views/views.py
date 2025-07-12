@@ -61,7 +61,7 @@ def create_conto_corrente(request):
     # Crea il conto solo se non esiste già
     if not ContoCorrente.objects.filter(utente=user).exists():
         # Trova tutti i consulenti
-        from django.contrib.auth.models import Group
+        
         consulenti_group = Group.objects.get(name='consulenti')
         consulenti = User.objects.filter(groups=consulenti_group)
 
@@ -89,5 +89,5 @@ def create_conto_corrente(request):
 def post_login_redirect(request):
     user = request.user
     if user.is_superuser or user.groups.filter(name='consulenti').exists():
-        return redirect('Consulenti-Admin:homepage')  # nome url della homepage personalizzata
+        return redirect('ConsulentiAdmin:homepage')  # nome url della homepage personalizzata
     return redirect('/homepage/?login=ok')  # nome url della homepage classica

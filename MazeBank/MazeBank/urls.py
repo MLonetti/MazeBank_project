@@ -19,6 +19,7 @@ from django.urls import path, include
 from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
+from Banking.views.authentication_views.views import post_login_redirect 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,12 +27,14 @@ urlpatterns = [
     path('about/', about, name='us'),
     path('services/', services, name='services'),
     path('warning/', warning, name='warning'),
-    
+
+    path('post-login/', post_login_redirect, name='post_login_redirect'), 
+
     # URL per le pagine gestite dalla logica dell'app Banking
     path('banking/', include('Banking.urls')),
 
     # URL per le pagine gestite dalla logica per admin e consulenti
-    path('consulent_administer/', include('Consulenti-Admin.urls')),
+    path('consulent_administer/', include('ConsulentiAdmin.urls')),
 ]
 
 if settings.DEBUG:
