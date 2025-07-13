@@ -37,9 +37,7 @@
                                 <a href="{% url "ConsulentiAdmin:crea_consulente"%}" class="btn btn-outline-mazebank btn-lg">
                                     <i class="fas fa-user-plus dashboard-icon"></i> Aggiungi Consulente
                                 </a>
-                                <a href="#" class="btn btn-outline-secondary btn-lg">
-                                    <i class="fas fa-chart-line dashboard-icon"></i> Report e Statistiche
-                                </a>
+                               
                             {% elif is_consulente %}
                                 <a href="{% url 'ConsulentiAdmin:clienti_seguiti'%}" class="btn btn-mazebank btn-lg">
                                     <i class="fas fa-address-book dashboard-icon"></i> Gestione Clienti

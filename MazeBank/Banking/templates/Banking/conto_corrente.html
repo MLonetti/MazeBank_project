@@ -24,6 +24,25 @@
                         <span class="font-weight-bold text-success" style="font-size:1.3rem;">€ {{ conto_corrente.saldo }}</span>
                     </li>
                 </ul>
+                {% if conto_corrente.consulente %}
+                <div class="card mb-3 shadow-sm border-0 bg-light">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-auto p-3">
+                            {% if conto_corrente.consulente.immagine_profilo %}
+                                <img src="{{ conto_corrente.consulente.immagine_profilo.url }}" alt="Immagine consulente" class="rounded-circle" style="width:70px; height:70px; object-fit:cover; border:2.5px solid #b02a37;">
+                            {% else %}
+                                <img src="{% static 'imgs/default_profile.png' %}" alt="Nessuna immagine" class="rounded-circle" style="width:70px; height:70px; object-fit:cover; border:2.5px solid #b02a37;">
+                            {% endif %}
+                        </div>
+                        <div class="col ps-2">
+                            <h5 class="mb-1 text-mazebank-red">Consulente di riferimento</h5>
+                            <div class="fw-bold">{{ conto_corrente.consulente.first_name }} {{ conto_corrente.consulente.last_name }}</div>
+                            <div class="text-muted small"><i class="fas fa-envelope"></i> {{ conto_corrente.consulente.email }}</div>
+                            <div class="text-muted small"><i class="fas fa-phone"></i> {{ conto_corrente.consulente.cellulare|default:'-' }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
                 <div class="mt-4 text-center">
                     <a href="{% url 'Banking:profilo' conto_corrente.utente.pk %}" class="btn btn-outline-primary font-weight-bold">
                         Vai al profilo utente

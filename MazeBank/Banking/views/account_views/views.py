@@ -376,9 +376,12 @@ def add_contatto(request):
             except User.DoesNotExist:
                 form.add_error('telefono', "Nessun utente trovato con questo numero di telefono.")
             else:
-                # NUOVO CONTROLLO: non puoi aggiungere te stesso
+                # Non puoi aggiungere te stesso
                 if utente_salvato == request.user:
                     form.add_error('telefono', "Non puoi aggiungere te stesso come contatto.")
+                # Non puoi aggiungere admin o consulenti
+                elif utente_salvato.is_superuser or utente_salvato.groups.filter(name='consulenti').exists():
+                    form.add_error('telefono', "Puoi aggiungere solo clienti alla rubrica.")
                 elif ContattoSalvato.objects.filter(proprietario=request.user, utente_salvato=utente_salvato).exists():
                     form.add_error('telefono', "Hai già salvato questo contatto.")
                 else:
