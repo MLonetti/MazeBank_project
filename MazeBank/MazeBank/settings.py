@@ -138,3 +138,5 @@ MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'Banking.User'
 
 LOGIN_REDIRECT_URL = '/post-login/'# Redirect URL dopo il login
+
+LOGIN_URL = 'warning'  # URL alla quale andiamo se non siamo autenticati
