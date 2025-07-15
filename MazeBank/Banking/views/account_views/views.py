@@ -257,7 +257,7 @@ class estratto_conto(SoloClientiRequiredMixin, LoginRequiredMixin, ListView):
                 'importo': f"{'-' if is_uscita else '+'}{t.importo} €",
                 'importo_class': "importo-uscita" if is_uscita else "importo-entrata",
                 'causale': getattr(t, 'causale', ''),
-                'controparte': nome_rubrica or controparte.utente.get_full_name() or controparte.utente.cellulare,
+                'controparte': str(nome_rubrica or controparte.utente.get_full_name() or controparte.utente.cellulare),
                 'iban': getattr(controparte, 'iban', ''),
             })
 
@@ -338,7 +338,7 @@ def ajax_filtra_transazioni(request):
             'importo': f"{'-' if is_uscita else '+'}{t.importo} €",
             'importo_class': "importo-uscita" if is_uscita else "importo-entrata",
             'causale': getattr(t, 'causale', ''),
-            'controparte': nome_rubrica or controparte.utente.get_full_name() or controparte.utente.cellulare,
+            'controparte': str(nome_rubrica or controparte.utente.get_full_name() or controparte.utente.cellulare),
             'iban': getattr(controparte, 'iban', ''),
         })
     return JsonResponse({'transazioni': data})
