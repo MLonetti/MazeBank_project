@@ -7,9 +7,9 @@ MazeBank è una web application bancaria completa, sviluppata in Django, che sim
 ## Caratteristiche principali
 
 - **Registrazione e autenticazione utenti**
-  - Registrazione clienti con bonus di benvenuto
-  - Login/logout sicuro
-  - Gestione profilo personale e immagine profilo
+  - Registrazione clienti ed apertura conto corrente, con Bonus di euro 50,00.
+  - Login/logout 
+  - Gestione profilo personale
 
 - **Gestione conto corrente**
   - Visualizzazione saldo e movimenti
@@ -17,29 +17,28 @@ MazeBank è una web application bancaria completa, sviluppata in Django, che sim
   - Storico transazioni (estratto conto) con filtri avanzati
 
 - **Bonifici e trasferimenti**
-  - Invio bonifici SEPA ad altri utenti
-  - Invio soldi rapido ad amici salvati in rubrica
-  - Causale e conferma operazione tramite modale
+  - Invio bonifici SEPA ad altri utenti;
+  - Invio soldi rapido ad amici salvati in rubrica.
 
 - **Rubrica contatti**
-  - Salvataggio e gestione dei contatti frequenti
-  - Restrizioni: solo clienti possono essere aggiunti alla rubrica
-  - Invio soldi diretto dalla rubrica
+  - Salvataggio di utenti all'interno della propria rubrica personale;
+  - Restrizioni: solo clienti possono essere aggiunti alla rubrica (no Admin e no Consulenti);
+  - Invio soldi diretto dalla rubrica.
 
 - **Area consulenti**
-  - Gestione clienti seguiti
-  - Visualizzazione dettagli clienti e conti associati
-  - Aggiunta e gestione consulenti (per admin)
+  - Gestione clienti seguiti;
+  - Visualizzazione dettagli clienti e conti associati;
+  - Aggiunta e gestione consulenti (per admin).
 
 - **Sicurezza**
-  - Permessi e gruppi utenti (clienti, consulenti, admin)
-  - Decoratori personalizzati per restrizione accessi
-  - Validazione dati lato backend e frontend
+  - Permessi e gruppi utenti (clienti, consulenti, admin);
+  - Decoratori personalizzati per restrizione accessi;
+  - Validazione dati lato backend e frontend.
 
 - **Interfaccia utente**
-  - Responsive e mobile-friendly (Bootstrap 4)
-  - Temi personalizzati MazeBank
-  - Modali, toast di notifica, feedback visivi
+  - Responsive e mobile-friendly (Bootstrap 4);
+  - Temi personalizzati MazeBank;
+  - Modali, toast di notifica, feedback visivi.
 
 ---
 
@@ -115,7 +114,7 @@ MazeBank_project/
 ## Come usare MazeBank
 
 - **Registrazione:**  
-  Clicca su "Apri il tuo conto ora" dalla home e compila il form. Riceverai un bonus di benvenuto.
+  Clicca su "Apri il tuo conto ora" dalla home e compila il form. Aprirati il tuo conto e riceverai un bonus di benvenuto.
 - **Login:**  
   Accedi con le tue credenziali.
 - **Gestione conto:**  
@@ -142,17 +141,6 @@ Sono inclusi test per:
 
 ---
 
-## Personalizzazione
-
-- **Stili:**  
-  Modifica i file CSS in `static/css/Banking/` e `static/css/ConsulentiAdmin/`.
-- **Template:**  
-  Personalizza l’interfaccia modificando i file in `templates/`.
-- **Modelli:**  
-  Aggiungi campi o funzionalità nei modelli in `Banking/models.py` e `ConsulentiAdmin/models.py`.
-
----
-
 ## Dipendenze principali
 
 - Django
@@ -167,9 +155,3 @@ Sono inclusi test per:
 
 MazeBank è un progetto didattico sviluppato per simulare una banca digitale moderna, con attenzione a sicurezza, UX e best practice Django.
 
----
-
-## Licenza
-
-Questo progetto è distribuito sotto licenza MIT.  
-Vedi il file LICENSE per
