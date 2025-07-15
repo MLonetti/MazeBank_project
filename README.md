@@ -1,3 +1,5 @@
+![MazeBank Logo](MazeBank/static/imgs/logo2.jpg)
+
 # MazeBank
 
 MazeBank è una web application bancaria completa, sviluppata in Django, che simula le principali funzionalità di una banca digitale moderna. Il progetto offre un'esperienza utente avanzata sia per clienti che per consulenti, con un'interfaccia responsive, sicura e ricca di funzionalità.
