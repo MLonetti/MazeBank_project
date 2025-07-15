@@ -23,8 +23,12 @@ class RubricaContattiTest(TestCase):
         group, _ = Group.objects.get_or_create(name='consulenti')
         self.consulente.groups.add(group)
 
+        group, _ = Group.objects.get_or_create(name='clienti')
+        self.cliente.groups.add(group)
+
     def test_cliente_non_puo_aggiungere_admin_o_consulente(self):
         self.client.login(username='cliente', password='test')
+        
         # Prova ad aggiungere il consulente
 
         response = self.client.post(reverse('Banking:add_contact'), {'telefono': self.consulente.cellulare, 'nome': 'Luca'})
@@ -33,6 +37,7 @@ class RubricaContattiTest(TestCase):
         self.assertIsNotNone(form, "Il form non è presente nel context della response.")
         self.assertIn('telefono', form.errors)
         self.assertIn('Puoi aggiungere solo clienti alla rubrica.', form.errors['telefono'])
+        # test passa se queste assert sono verificate
 
         # Prova ad aggiungere l'admin
 
@@ -43,14 +48,6 @@ class RubricaContattiTest(TestCase):
         self.assertIn('telefono', form.errors)
         self.assertIn('Puoi aggiungere solo clienti alla rubrica.', form.errors['telefono'])
 
-        # Prova ancora con il consulente (per coprire entrambi gli url)
-
-        response = self.client.post(reverse('Banking:add_contact'), {'telefono': self.consulente.cellulare, 'nome': 'Luca'})
-        self.assertEqual(response.status_code, 200, "La view dovrebbe restituire la pagina con il form e l'errore, non un redirect.")
-        form = response.context.get('form')
-        self.assertIsNotNone(form, "Il form non è presente nel context della response.")
-        self.assertIn('telefono', form.errors)
-        self.assertIn('Puoi aggiungere solo clienti alla rubrica.', form.errors['telefono'])
 
 class BonificoTest(TestCase):
     def setUp(self):
