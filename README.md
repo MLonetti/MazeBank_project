@@ -10,30 +10,36 @@ MazeBank è una web application bancaria completa, sviluppata in Django, che sim
   - Registrazione clienti ed apertura conto corrente, con Bonus di euro 50,00.
   - Login/logout 
   - Gestione profilo personale
+    
 
 - **Gestione conto corrente**
   - Visualizzazione saldo e movimenti
   - Dettaglio conto con IBAN e dati personali
   - Storico transazioni (estratto conto) con filtri avanzati
 
+
 - **Bonifici e trasferimenti**
   - Invio bonifici SEPA ad altri utenti;
   - Invio soldi rapido ad amici salvati in rubrica.
+
 
 - **Rubrica contatti**
   - Salvataggio di utenti all'interno della propria rubrica personale;
   - Restrizioni: solo clienti possono essere aggiunti alla rubrica (no Admin e no Consulenti);
   - Invio soldi diretto dalla rubrica.
 
+
 - **Area consulenti**
   - Gestione clienti seguiti;
   - Visualizzazione dettagli clienti e conti associati;
   - Aggiunta e gestione consulenti (per admin).
 
+
 - **Sicurezza**
   - Permessi e gruppi utenti (clienti, consulenti, admin);
   - Decoratori personalizzati per restrizione accessi;
   - Validazione dati lato backend e frontend.
+
 
 - **Interfaccia utente**
   - Responsive e mobile-friendly (Bootstrap 4);
@@ -115,14 +121,24 @@ MazeBank_project/
 
 - **Registrazione:**  
   Clicca su "Apri il tuo conto ora" dalla home e compila il form. Aprirati il tuo conto e riceverai un bonus di benvenuto.
+  
+  
 - **Login:**  
   Accedi con le tue credenziali.
+  
+  
 - **Gestione conto:**  
   Visualizza saldo, movimenti, dettagli conto e invia bonifici.
+
+  
 - **Rubrica:**  
   Salva i tuoi amici/clienti preferiti e invia loro denaro rapidamente.
+
+  
 - **Area consulenti:**  
   Se sei un consulente, puoi vedere i clienti seguiti e i loro conti.
+
+  
 - **Admin:**  
   Gestisci consulenti e clienti dall’area riservata.
 
