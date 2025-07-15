@@ -1,5 +1,5 @@
-<p align="center">
-  <img src="MazeBank/static/imgs/logo2.jpg" alt="MazeBank Logo" width="150"/>
+<p>
+  <img src="MazeBank/static/imgs/logo2.jpg" alt="MazeBank Logo" width="170"/>
 </p>
 
 # MazeBank
