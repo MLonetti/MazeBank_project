@@ -37,7 +37,7 @@ class UserCreateView(CreateView):
     def get_success_url(self):
         return reverse('Banking:create_conto_corrente') + f'?user_id={self.object.pk}'
 
-
+# il redirect di questa view è gestito in settings.py
 class CustomLoginView(LoginView):
     authentication_form = NewLoginAuthenticationForm
     template_name = 'registration/login.html'
