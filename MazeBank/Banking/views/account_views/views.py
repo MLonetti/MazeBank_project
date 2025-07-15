@@ -185,7 +185,8 @@ def make_bonifico(request):
 
 # INIZIALMENTE INVECE REFRESHANDO LA PAGINA SI RIEFFETTUAVA IL BONIFICO
 #######################################################################################
-
+@login_required
+@solo_clienti_required
 def bonifico_esito(request):
     # Questa view va protetta solo se serve, altrimenti lasciare libera per redirect post-bonifico
     if request.user.is_superuser or request.user.groups.filter(name='consulenti').exists():
