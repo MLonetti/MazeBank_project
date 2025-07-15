@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
@@ -23,7 +23,7 @@ from Banking.views.authentication_views.views import post_login_redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('homepage/', homepage, name='homepage'),
+    re_path(r"^$|^home/$|^homepage$", homepage, name='homepage'),
     path('about/', about, name='us'),
     path('services/', services, name='services'),
     path('warning/', warning, name='warning'),
