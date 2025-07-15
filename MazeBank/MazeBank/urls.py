@@ -23,7 +23,7 @@ from Banking.views.authentication_views.views import post_login_redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r"^$|^home/$|^homepage$", homepage, name='homepage'),
+    re_path(r"^$|^home/$|^homepage/$", homepage, name='homepage'),
     path('about/', about, name='us'),
     path('services/', services, name='services'),
     path('warning/', warning, name='warning'),
